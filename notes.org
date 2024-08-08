@@ -1,0 +1,94 @@
+* C HTTP server
+
+* Specification
+
+What do i need to acomplish?
+Short summary of what i need to acomplish in this project
+
+** HTTP service
+When running, this program should serve as a http server, giving websites back, on
+http requests.
+
+** Logging and output
+Output should be going into log files, instead of the standard output.
+logfiles should be organized, and named by date, and every session has to has its own file.
+log entries should begin with a timestamp and prefixed by category, if a connection thred creates it, it should contain the ip address as well.
+
+[<timestamp>] [<category>] <content>
+
+** Configuration
+This program should be configured by a configuration file
+
+** Threading
+Clients should connect, and served by several threads ensuring multiple simultaneous communication channels.
+
+* Development decisions
+
+** HTTP service
+
+*** TODO Which standard should i follow?
+
+*** TODO Should i follow more, or strip some parts?
+
+*** TODO what requests should i handle?
+First, only GET, then we might append
+
+** Logging
+
+*** TODO Where to put my logfiles?
+configurable, default path is /tmp
+
+*** TODO Should it be configured by args as well?
+yes
+
+** Configuration
+
+*** TODO What format should i use for configs?
+custom text?
+
+*** TODO should i use a library as a parser for that?
+no?
+
+** Building
+
+*** TODO How should i build my app? Makefile, shell, cmake?
+configure script, auto-tools, etc?
+First time, only a simple makefile, and a build.sh if needed.
+
+*** DONE what libs should i use?
+None
+
+
+** Testing
+
+*** TODO Which test environment should i use?
+
+* Core elements of the server
+
+** File manager
+Manages files, opens closes, and serves them to other modules
+This module opens the file if exists, and gives back its content.
+Needed information:
+- directory / directories for the html files to serve
+  
+** Processor
+Processes incomming http requests, and acquires files for response.
+
+** Connection Initializer
+Listens for incomming connection on given port, and sets up communication channels.
+
+** Connection Handler
+A module that implemetns the communication, builds up tcp connection, reading and writing data into sockets.
+All buffering and networking is done in here.
+
+** Configuration parser
+Parses cmd line configs, and config files, sets up a configuration structure
+- generates a list of key value pairs from command line or config file arguments
+- generates server configuration object
+- sets default values
+
+** Setup
+Sets up the server modules.
+
+** Logger
+Stores server logs into a log file.
