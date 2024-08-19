@@ -1,9 +1,12 @@
-OUTPUT_DIR           = output
+OUTPUT_DIR           = build
 OBJ_DIR              = $(OUTPUT_DIR)/.obj-files
-SRC_DIR              = src
 BINARY_NAME          = balu
 
 CC = gcc
+
+CFLAGS          += -Isrc
+CFLAGS          += -Isrc/common
+CFLAGS          += -Isrc/config
 
 CFLAGS          += -Wall
 CFLAGS          += -Wextra
@@ -14,16 +17,20 @@ release: CFLAGS += -O3
 LDFLAGS         += -pthread
 debug: LDFLAGS  += -lasan
 
-SOURCES = $(wildcard $(SRC_DIR)/*.c)
-HEADERS = $(wildcard $(SRC_DIR)/*.h)
-OBJECTS = $(foreach SRC, $(SOURCES), $(OBJ_DIR)/$(notdir $(basename $(SRC))).o)
+SOURCES  = $(wildcard src/*.c)
+SOURCES += $(wildcard src/config/*.c)
+OBJECTS  = $(foreach SRC, $(SOURCES), $(OBJ_DIR)/$(notdir $(basename $(SRC))).o)
 
 all: debug
 
 release: $(OUTPUT_DIR)/$(BINARY_NAME)
 debug:   $(OUTPUT_DIR)/$(BINARY_NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $^ -o $@
+
+$(OBJ_DIR)/%.o: src/config/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
