@@ -58,10 +58,13 @@ First time, only a simple makefile, and a build.sh if needed.
 *** DONE what libs should i use?
 None
 
-
 ** Testing
 
 *** TODO Which test environment should i use?
+- [[https://cmocka.org/][cmocka]]
+- [[https://nemequ.github.io/munit/#][qnit]]
+- gtest
+- [[https://github.com/ThrowTheSwitch/Unity][unity]]
 
 * Core elements of the server
 
