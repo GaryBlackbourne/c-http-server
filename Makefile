@@ -1,45 +1,50 @@
-OUTPUT_DIR           = build
-OBJ_DIR              = $(OUTPUT_DIR)/.obj-files
-BINARY_NAME          = balu
+MODE            ?= release
 
-CC = gcc
+OUTPUT_DIR      := build
+OBJ_DIR         := $(OUTPUT_DIR)/$(MODE)/.obj-files
+BINARY_NAME     := balu
+BINARY          := $(OUTPUT_DIR)/$(MODE)/$(BINARY_NAME)
+CC              := gcc
 
-CFLAGS          += -Isrc
-CFLAGS          += -Isrc/common
-CFLAGS          += -Isrc/config
-
-CFLAGS          += -Wall
+CFLAGS          := -Wall
 CFLAGS          += -Wextra
-debug: CFLAGS   += -O0
-debug: CFLAGS   += -g3
-release: CFLAGS += -O3
+CFLAGS          += -MMD
 
-LDFLAGS         += -pthread
-debug: LDFLAGS  += -lasan
+LDFLAGS         := -pthread
 
-SOURCES  = $(wildcard src/*.c)
-SOURCES += $(wildcard src/config/*.c)
-OBJECTS  = $(foreach SRC, $(SOURCES), $(OBJ_DIR)/$(notdir $(basename $(SRC))).o)
+ifeq($(MODE), release)
+	CFLAGS  += -O3
+	LDFLAGS += -lasan
+else ifeq ($(MODE), debug)
+	CFLAGS  += -O0
+	CFLAGS  += -g3
+else
+	$(error "Invalid MODE value: $(MODE). Use either 'release' or 'debug'.")
+endif
 
-all: debug
+all: $(BINARY) 
 
-release: $(OUTPUT_DIR)/$(BINARY_NAME)
-debug:   $(OUTPUT_DIR)/$(BINARY_NAME)
+-include $(OBJ_DIR)/main.d
 
-$(OBJ_DIR)/%.o: src/%.c
-	@mkdir -p $(OBJ_DIR)
+objects  := $(OBJ_DIR)/main.o
+$(OBJ_DIR)/main.o: src/main.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
-$(OBJ_DIR)/%.o: src/config/%.c
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $^ -o $@
+-include src/config/Makefile
+-include src/common/Makefile
 
-$(OUTPUT_DIR)/$(BINARY_NAME): $(OBJECTS)
-	@mkdir -p $(OUTPUT_DIR)
+$(BINARY): $(objects)
+	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
+
+$(OBJ_DIR)/unity.o: Unity/src/unity.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR) &>/dev/null
+	@rm -r  $(BINARY)  &>/dev/null
 .PHONY: clean
 
 dist-clean:
