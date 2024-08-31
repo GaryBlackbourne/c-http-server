@@ -1,7 +1,7 @@
 #ifndef _BALU_ARGPARSER_H
 #define _BALU_ARGPARSER_H
 
-#include "Argument.h"
+#include "argument.h"
 
 typedef struct ArgumentListElement {
 

@@ -1,16 +1,16 @@
-config_root := src/config
+config-root := src/config
 
-config_sources := $(wildcard $(config_root)/*.c)
-config_objects := $(patsubst $(config_root)/%.c, $(OBJ_DIR)/config-%.o, $(config_sources))
-config_deps    := $(patsubst $(OBJ_DIR)/config-%.o, $(OBJ_DIR)/config-%.d, $(config_objects))
+config-sources := $(wildcard $(config-root)/*.c)
+config-objects := $(patsubst $(config-root)/%.c, $(OBJ_DIR)/config-%.o, $(config-sources))
+config-deps    := $(patsubst $(OBJ_DIR)/config-%.o, $(OBJ_DIR)/config-%.d, $(config-objects))
 
-objects += $(config_objects)
+objects += $(config-objects)
 
-config: $(config_objects)
+config: $(config-objects)
 
-$(OBJ_DIR)/config-%.o: $(config_root)/%.c
+$(OBJ_DIR)/config-%.o: $(config-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
--include $(config_deps)
+-include $(config-deps)
 

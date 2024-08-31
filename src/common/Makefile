@@ -1,18 +1,18 @@
-common_root    := src/common
+common-root    := src/common
 
-common_sources := $(wildcard $(common_root)/*.c)
-common_objects := $(patsubst $(common_root)/%.c, $(OBJ_DIR)/common-%.o, $(common_sources))
-common_deps    := $(patsubst $(OBJ_DIR)/%.o, $(OBJ_DIR)/common-%.d, $(common_objects))
+common-sources := $(wildcard $(common-root)/*.c)
+common-objects := $(patsubst $(common-root)/%.c, $(OBJ_DIR)/common-%.o, $(common-sources))
+common_deps    := $(patsubst $(OBJ_DIR)/%.o, $(OBJ_DIR)/common-%.d, $(common-objects))
 
-objects        += $(common_objects)
+objects        += $(common-objects)
 
-common: $(common_objects)
+common: $(common-objects)
 
-$(OBJ_DIR)/common-%.o: $(common_root)/%.c
+$(OBJ_DIR)/common-%.o: $(common-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
--include $(common_deps)
+-include $(common-deps)
 
 
 
