@@ -5,7 +5,7 @@ config-test-objects += $(OBJ_DIR)/unity.o
 config-test         += $(TEST_DIR)/config-test
 
 config-test-CFLAGS  += -IUnity/src
-# config-test-CFLAGS  += -Isrc/config
+config-test-CFLAGS  += -Isrc/config
 # config-test-CFLAGS  += -Isrc/common
 
 $(OBJ_DIR)/%-test.o: test/config/%-test.c
