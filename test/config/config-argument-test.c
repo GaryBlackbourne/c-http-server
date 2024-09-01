@@ -3,11 +3,9 @@
 #include "unity.h"
 #include <string.h>
 
-void get_integer_value_test() {
+void get_integer_value_test_normal_usage() {
     const char* test_key = "test-key";
     const char* test_int_value = "55";
-    const char* test_float_value = "3.14";
-    const char* test_string_value = "some test string";
     Argument test_int_arg = create_argument(test_key, Integer);
 
     int value = 0;
@@ -19,6 +17,29 @@ void get_integer_value_test() {
     ret = get_integer_value(&test_int_arg, &value);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(55, value);
+}
+
+void get_integer_value_test_fail_on_bad_type() {
+    const char* test_key = "test-key";
+    Argument test_float_arg = create_argument(test_key, Float);
+    Argument test_string_arg = create_argument(test_key, String);
+    int ret = 0;
+    int value = 0;
+
+    ret = get_integer_value(&test_float_arg, &value);
+    TEST_ASSERT_EQUAL(-1, ret);
+
+    ret = get_integer_value(&test_string_arg, &value);
+    TEST_ASSERT_EQUAL(-1, ret);
+}
+
+void get_integer_value_test_fail_on_float() {
+    const char* test_float_value = "3.14";
+    const char* test_key = "test-key";
+    Argument test_int_arg = create_argument(test_key, Integer);
+
+    int value = 0;
+    int ret = 0;
 
     ret = 98;
     value = 98;
@@ -26,6 +47,15 @@ void get_integer_value_test() {
     ret = get_integer_value(&test_int_arg, &value);
     TEST_ASSERT_EQUAL_INT(-1, ret);
     TEST_ASSERT_EQUAL_INT(98, value);
+}
+
+void get_integer_value_test_fail_on_string() {
+    const char* test_string_value = "some test string";
+    const char* test_key = "test-key";
+    Argument test_int_arg = create_argument(test_key, Integer);
+
+    int value = 0;
+    int ret = 0;
 
     ret = 98;
     value = 98;
@@ -35,10 +65,8 @@ void get_integer_value_test() {
     TEST_ASSERT_EQUAL_INT(98, value);
 }
 
-void get_string_value_test() {
+void get_string_value_test_normal_usage() {
     const char* test_key = "test-key";
-    const char* test_int_value = "55";
-    const char* test_float_value = "3.14";
     const char* test_string_value = "some test string";
     const char* test_string_value_default = "DEFAULT_VALUE";
     Argument test_string_arg = create_argument(test_key, String);
@@ -52,13 +80,30 @@ void get_string_value_test() {
     ret = get_string_value(&test_string_arg, value);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_STRING("some test string", value);
+}
 
-    ret = 98;
-    strncpy(value, test_string_value_default, strlen(test_string_value_default) + 1);
-    strncpy(test_string_arg.value, test_float_value, strlen(test_float_value) + 1);
-    ret = get_string_value(&test_string_arg, value);
-    TEST_ASSERT_EQUAL_INT(-1, ret);
-    TEST_ASSERT_EQUAL_STRING("DEFAULT_VALUE", value);
+void get_string_value_test_fail_on_bad_type() {
+    const char* test_key = "test-key";
+    Argument test_float_arg = create_argument(test_key, Float);
+    Argument test_int_arg = create_argument(test_key, Integer);
+    int ret = 0;
+    char value [25] = {0};
+
+    ret = get_string_value(&test_float_arg, value);
+    TEST_ASSERT_EQUAL(-1, ret);
+
+    ret = get_string_value(&test_int_arg, value);
+    TEST_ASSERT_EQUAL(-1, ret);
+}
+
+void get_string_value_test_fail_on_int() {
+    const char* test_key = "test-key";
+    const char* test_int_value = "55";
+    const char* test_string_value_default = "DEFAULT_VALUE";
+    Argument test_string_arg = create_argument(test_key, String);
+
+    char value [25];
+    int ret = 0;
 
     ret = 98;
     strncpy(value, test_string_value_default, strlen(test_string_value_default) + 1);
@@ -68,11 +113,26 @@ void get_string_value_test() {
     TEST_ASSERT_EQUAL_STRING("DEFAULT_VALUE", value);
 }
 
-void get_float_value_test() {
+void get_string_value_test_fail_on_float() {
     const char* test_key = "test-key";
-    const char* test_int_value = "55";
     const char* test_float_value = "3.14";
-    const char* test_string_value = "some test string";
+    const char* test_string_value_default = "DEFAULT_VALUE";
+    Argument test_string_arg = create_argument(test_key, String);
+
+    char value [25];
+    int ret = 0;
+
+    ret = 98;
+    strncpy(value, test_string_value_default, strlen(test_string_value_default) + 1);
+    strncpy(test_string_arg.value, test_float_value, strlen(test_float_value) + 1);
+    ret = get_string_value(&test_string_arg, value);
+    TEST_ASSERT_EQUAL_INT(-1, ret);
+    TEST_ASSERT_EQUAL_STRING("DEFAULT_VALUE", value);
+}
+
+void get_float_value_test_normal_usage() {
+    const char* test_key = "test-key";
+    const char* test_float_value = "3.14";
     Argument test_float_arg = create_argument(test_key, Float);
 
     float value = 0;
@@ -85,13 +145,47 @@ void get_float_value_test() {
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_FLOAT(3.14, value);
 
+
+}
+
+void get_float_value_test_fail_on_bad_type() {
+    const char* test_key = "test-key";
+    Argument test_float_arg = create_argument(test_key, Integer);
+    Argument test_string_arg = create_argument(test_key, String);
+    int ret = 0;
+    float value = 0;
+
+    ret = get_float_value(&test_float_arg, &value);
+    TEST_ASSERT_EQUAL(-1, ret);
+
+    ret = get_float_value(&test_string_arg, &value);
+    TEST_ASSERT_EQUAL(-1, ret);
+}
+
+void get_float_value_test_fail_on_string() {
+    const char* test_key = "test-key";
+    const char* test_string_value = "some test string";
+    Argument test_float_arg = create_argument(test_key, Float);
+
+    float value = 0;
+    int ret = 0;
+    
     ret = 98;
     value = 98.98;
     strncpy(test_float_arg.value, test_string_value, strlen(test_string_value) + 1);
     ret = get_float_value(&test_float_arg, &value);
     TEST_ASSERT_EQUAL_INT(-1, ret);
     TEST_ASSERT_EQUAL_FLOAT(98.98, value);
+}
 
+void get_float_value_test_fail_on_int() {
+    const char* test_key = "test-key";
+    const char* test_int_value = "55";
+    Argument test_float_arg = create_argument(test_key, Float);
+
+    float value = 0;
+    int ret = 0;
+    
     ret = 98;
     value = 98.98;
     strncpy(test_float_arg.value, test_int_value, strlen(test_int_value) + 1);
@@ -151,6 +245,8 @@ void create_argument_test() {
 
 void copy_argument_test() {
     Argument arg_1 = create_argument("test-key-1", Integer);
+    strncpy(arg_1.value, "test-value-1", strlen("test-value-1") + 1);
+
     Argument arg_2 = copy_argument(&arg_1);
 
     TEST_ASSERT_EQUAL_INT(arg_1.type, arg_2.type);

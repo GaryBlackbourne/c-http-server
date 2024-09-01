@@ -5,10 +5,20 @@
 #include "arg-list.h"
 
 // config-argument-test.c
+void get_integer_value_test_normal_usage();
+void get_integer_value_test_fail_on_bad_type();
+void get_integer_value_test_fail_on_float();
+void get_integer_value_test_fail_on_string();
 
-void get_integer_value_test();
-void get_string_value_test();
-void get_float_value_test();
+void get_string_value_test_normal_usage();
+void get_string_value_test_fail_on_bad_type();
+void get_string_value_test_fail_on_int();
+void get_string_value_test_fail_on_float();
+
+void get_float_value_test_normal_usage();
+void get_float_value_test_fail_on_bad_type();
+void get_float_value_test_fail_on_int();
+void get_float_value_test_fail_on_string();
 
 void check_argument_test();
 
