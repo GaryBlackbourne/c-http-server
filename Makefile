@@ -12,13 +12,13 @@ CFLAGS          += -Wextra
 CFLAGS          += -MMD
 
 LDFLAGS         := -pthread
+LDFLAGS         += -lm
 
 tests           := 
 
 ifeq ($(MODE), release)
 	CFLAGS  += -O3
 else ifeq ($(MODE), debug)
-	LDFLAGS += -lasan
 	CFLAGS  += -O0
 	CFLAGS  += -g3
 else
