@@ -1,4 +1,4 @@
-MODE            ?= release
+MODE            ?= debug
 
 OUTPUT_DIR      := build
 OBJ_DIR         := $(OUTPUT_DIR)/$(MODE)/.obj-files
@@ -50,7 +50,7 @@ $(OBJ_DIR)/unity.o: Unity/src/unity.c
 
 clean:
 	@rm -rf $(OBJ_DIR)    &>/dev/null
-	@rm -r  $(BINARY)     &>/dev/null
+	@rm -f  $(BINARY)     &>/dev/null
 .PHONY: clean
 
 distclean:
