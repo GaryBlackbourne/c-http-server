@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <math.h>
 
 int imin(int a, int b) {
     return (a < b) ? a : b;
@@ -93,8 +94,11 @@ int str_to_float(const char* src, uint32_t len, float * value) {
     int fraction_part_int = 0;
     (void) str_to_i32(fractional_part, len - decimal - 1, &fraction_part_int);
 
-    // generate answer
-    answer = (float) (whole_part_int) +  ((float)fraction_part_int / (10*(len - decimal - 1)));
+    float whole_part_float    = (float) whole_part_int;
+    float fraction_part_float = ((float) fraction_part_int) / powf(10.0, (len - decimal - 1));
+
+    answer = whole_part_float + fraction_part_float;
+
     (*value) = answer;
 
     return 0;
