@@ -18,19 +18,20 @@ int str_to_i32(const char *src, uint32_t len, int32_t *value) {
     assert(src != NULL);
     assert(value != NULL);
 
-    int answer           = 0;
-    int num              = 0;
-    uint32_t idx         = len;
-    uint32_t place_value = 1;
+    if (len == 0) { return -1; }
 
-    for(idx = len; idx != 0; idx --) {
-        num = (src[idx] >= '0' && src[idx] <= '9') ? (src[idx]) : -1;
-        if (num == -1) {
+    int      answer      = 0;
+    int32_t place_value = 1;
+
+    for(int32_t idx = len-1; idx > -1; idx --) {
+        // check if character is an actual number
+        int num = (src[idx] >= '0' && src[idx] <= '9') ? (src[idx] - '0') : -1;
+        if (num == -1) { // bad character (non numeric) -> error
             errno = EINVAL;
             return -1;
         }
-        answer += (num) * place_value;
-        place_value++;
+        answer += (num) * place_value; // shift number into place (decimal)
+        place_value *= 10;             // 
     }
 
     (*value) = answer;

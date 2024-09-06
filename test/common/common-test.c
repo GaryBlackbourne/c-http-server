@@ -36,7 +36,7 @@ void str_to_i32_test_normal_behavior() {
     int32_t value = 0;
     int ret = 0;
 
-    ret = str_to_i32("45", 5, &value);
+    ret = str_to_i32("45", 2, &value);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(45, value);
