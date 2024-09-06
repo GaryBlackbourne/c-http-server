@@ -95,3 +95,11 @@ Sets up the server modules.
 
 ** Logger
 Stores server logs into a log file.
+
+* Tasklist
+
+** TODO full test coverage
+
+** TODO test errno setting
+
+** TODO doxygen docs
