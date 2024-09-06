@@ -43,10 +43,10 @@ int str_to_float(const char* src, uint32_t len, float * value) {
     assert(value != NULL);
 
     float    answer            = 0;
-    uint32_t decimal           = len;
+    uint32_t decimal           = 0;
 
     int      multiple_decimals = -1;
-    uint32_t bad_char          = 0;
+    uint8_t  bad_char          = 0;
 
     // check for bad characters or multiple decimals
     for (uint32_t i = 0; i < len; i++) {
@@ -57,41 +57,45 @@ int str_to_float(const char* src, uint32_t len, float * value) {
                 break;
             }
         } else {
-            if (src[i] < '0' && src[i] > '9') {
+            if (src[i] < '0' || src[i] > '9') {
                 bad_char++;
                 break;
             }
         }
     }
+    // if bad character is read, or multiple decimals found then error
     if ((bad_char) || (multiple_decimals)) {
         errno = EINVAL;
         return -1;
     }
 
-    // copy fraction and whole part into local buffers
-    char * whole_part         = (char*) malloc (decimal + 1);
-    char * fractional_part    = (char*) malloc (len - decimal + 1);
+    // if no decimals found, its an int.
+    if (multiple_decimals == -1) {
+        int32_t val = 0;
+        if (0 == str_to_i32(src, len, &val)) {
+            answer = (float)val;
+        } else {
+            errno = EINVAL;
+            return -1;
+        }
+    }
 
-    strncpy(whole_part, src, decimal); 
-    whole_part[decimal] = '\0';
+    // if it really is a float and correct, then:
 
-    strncpy(fractional_part, src + decimal + 1, len - decimal);
-    fractional_part[len - decimal] = '\0';
+    // use whole_part and fractional_part as 'slices'
+    const char * whole_part      = src;
+    const char * fractional_part = src + decimal + 1;
 
     // convert whole and fraction strings to integers
     int whole_part_int = 0;
-    str_to_i32(whole_part, decimal, &whole_part_int);
+    (void) str_to_i32(whole_part, decimal, &whole_part_int);
 
     int fraction_part_int = 0;
-    str_to_i32(fractional_part, len - decimal, &fraction_part_int);
+    (void) str_to_i32(fractional_part, len - decimal - 1, &fraction_part_int);
 
     // generate answer
-    answer = (float) (whole_part_int) +  ((float)fraction_part_int / (10*(len - decimal)));
+    answer = (float) (whole_part_int) +  ((float)fraction_part_int / (10*(len - decimal - 1)));
     (*value) = answer;
-
-    // clean up local buffers
-    free(fractional_part);
-    free(whole_part);
 
     return 0;
 }
