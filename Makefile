@@ -17,8 +17,8 @@ tests           :=
 
 ifeq ($(MODE), release)
 	CFLAGS  += -O3
-	LDFLAGS += -lasan
 else ifeq ($(MODE), debug)
+	LDFLAGS += -lasan
 	CFLAGS  += -O0
 	CFLAGS  += -g3
 else
