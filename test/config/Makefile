@@ -12,7 +12,7 @@ $(OBJ_DIR)/%-test.o: test/config/%-test.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(config-test-CFLAGS) -c $< -o $@
 
-$(config-test): $(config-test-objects) $(config-objects)
+$(config-test): $(config-test-objects) $(config-objects) $(common-objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
