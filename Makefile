@@ -34,11 +34,11 @@ $(OBJ_DIR)/main.o: src/main.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
 
--include src/config/Makefile
--include test/config/Makefile
-
 -include src/common/Makefile
 -include test/common/Makefile
+
+-include src/config/Makefile
+-include test/config/Makefile
 
 $(BINARY): $(objects)
 	@mkdir -p $(@D)
