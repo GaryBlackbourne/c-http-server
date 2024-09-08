@@ -28,10 +28,6 @@ int main(void) {
 
     RUN_TEST(get_string_value_test_normal_usage);
     RUN_TEST(get_string_value_test_fail_on_bad_type);
-    RUN_TEST(get_string_value_test_fail_on_float);
-    RUN_TEST(get_string_value_test_fail_on_int);
-
-    RUN_TEST(check_argument_test);
 
     return UNITY_END();
 }

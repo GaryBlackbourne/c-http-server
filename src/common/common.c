@@ -19,10 +19,15 @@ int str_to_i32(const char *src, uint32_t len, int32_t *value) {
     assert(src != NULL);
     assert(value != NULL);
 
-    if (len == 0) { return -1; }
+    errno = 0;
+
+    if (len == 0) {
+        errno = EINVAL;
+        return -1;
+    }
 
     int      answer      = 0;
-    int32_t place_value = 1;
+    int32_t place_value  = 1;
 
     for(int32_t idx = len-1; idx > -1; idx --) {
         // check if character is an actual number
@@ -42,6 +47,8 @@ int str_to_i32(const char *src, uint32_t len, int32_t *value) {
 int str_to_float(const char* src, uint32_t len, float * value) {
     assert(src != NULL);
     assert(value != NULL);
+
+    errno                      = 0;
 
     float    answer            = 0;
     uint32_t decimal           = 0;
