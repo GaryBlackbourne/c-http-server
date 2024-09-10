@@ -34,6 +34,7 @@ int main(void) {
     RUN_TEST(create_argument_list_element_test);
     RUN_TEST(push_argument_list_element_test_add_first);
     RUN_TEST(push_argument_list_element_test_add_more);
+    RUN_TEST(remove_argument_list_element_test);
 
     return UNITY_END();
 }

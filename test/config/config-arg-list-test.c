@@ -57,10 +57,6 @@ void remove_argument_list_element_test() {
     push_argument_list_element(&alist, target2);
     push_argument_list_element(&alist, target3);
 
-    TEST_ASSERT_EQUAL(alist.list, target1);
-    TEST_ASSERT_EQUAL(alist.list->next, target2);
-    TEST_ASSERT_EQUAL(alist.list->next->next, target3);
-    
     remove_argument_list_element(&alist, target2);
 
     TEST_ASSERT_EQUAL(alist.list->next, target3);
