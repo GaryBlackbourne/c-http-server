@@ -13,30 +13,34 @@ void create_argument_list_element_test() {
     TEST_ASSERT_EQUAL(&arg, arg_element->argument);
 }
 
-void push_argument_list_element_test() {
+void push_argument_list_element_test_add_first() {
+    ArgumentList alist = create_argument_list();
+    Argument arg1 = create_argument("key1", Integer);
+    
+    ArgumentListElement* target = create_argument_list_element(&arg1);
+    push_argument_list_element(&alist, target);
+
+    TEST_ASSERT_EQUAL(target, alist.list);
+
+    TEST_ASSERT_NULL(target->next);
+    TEST_ASSERT_NULL(target->prev);
+}
+
+void push_argument_list_element_test_add_more() {
     ArgumentList alist = create_argument_list();
     Argument arg1 = create_argument("key1", Integer);
     Argument arg2 = create_argument("key2", Float);
-    
-    push_argument_list_element(&alist, create_argument_list_element(&arg1));
 
-    TEST_ASSERT_NOT_NULL(alist.list);
+    ArgumentListElement *target1 = create_argument_list_element(&arg1);
+    ArgumentListElement *target2 = create_argument_list_element(&arg2);
+    push_argument_list_element(&alist, target1);
+    push_argument_list_element(&alist, target2);
 
-    TEST_ASSERT_NULL(alist.list->next);
-    TEST_ASSERT_NULL(alist.list->prev);
+    TEST_ASSERT_EQUAL(target1, alist.list);
+    TEST_ASSERT_EQUAL(target2, alist.list->next);
 
-    TEST_ASSERT_EQUAL_STRING("key1", alist.list->argument->key);
-    TEST_ASSERT_EQUAL_INT(Integer, alist.list->argument->type);
-
-    push_argument_list_element(&alist, create_argument_list_element(&arg2));
-
-    TEST_ASSERT_NOT_NULL(alist.list->next);
-    TEST_ASSERT_NULL(alist.list->next->next);
-    TEST_ASSERT_EQUAL(alist.list, alist.list->next->prev);
-
-    TEST_ASSERT_EQUAL_STRING("key2", alist.list->next->argument->key);
-    TEST_ASSERT_EQUAL_INT(Float, alist.list->next->argument->type);
-
+    TEST_ASSERT_EQUAL(target2, target1->next);
+    TEST_ASSERT_EQUAL(target1, target2->prev);
 }
 
 void remove_argument_list_element_test() {

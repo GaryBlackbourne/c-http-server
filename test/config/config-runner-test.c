@@ -29,5 +29,11 @@ int main(void) {
     RUN_TEST(get_string_value_test_normal_usage);
     RUN_TEST(get_string_value_test_fail_on_bad_type);
 
+    RUN_TEST(create_argument_list_test);
+
+    RUN_TEST(create_argument_list_element_test);
+    RUN_TEST(push_argument_list_element_test_add_first);
+    RUN_TEST(push_argument_list_element_test_add_more);
+
     return UNITY_END();
 }

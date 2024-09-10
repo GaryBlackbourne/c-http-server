@@ -24,8 +24,13 @@ void copy_argument_test();
 void check_argument_test();
 
 // config-arg-list-test.c
-
 void create_argument_list_test();
+
+void create_argument_list_element_test();
+void push_argument_list_element_test_add_first();
+void push_argument_list_element_test_add_more();
+void remove_argument_list_element_test();
+
 void destroy_argument_list_test();
 void add_argument_test();
 void find_argument_test();
