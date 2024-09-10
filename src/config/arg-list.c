@@ -4,19 +4,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-static ArgumentListElement* create_argument_list_element(Argument* arg) {
+ArgumentListElement* create_argument_list_element(Argument* arg) {
     ArgumentListElement* element
         = (ArgumentListElement*)malloc(sizeof(ArgumentListElement));
     if (element) {
         element->next     = NULL;
         element->prev     = NULL;
         element->argument = arg;
-        arg               = NULL;
     }
     return element;
 }
 
-static void push_argument_list_element(ArgumentList* arglist,
+void push_argument_list_element(ArgumentList* arglist,
                                        ArgumentListElement* element) {
     assert(arglist != NULL);
     assert(element != NULL);
@@ -37,7 +36,7 @@ static void push_argument_list_element(ArgumentList* arglist,
     return;
 }
 
-static int remove_argument_list_element(ArgumentList* arglist,
+int remove_argument_list_element(ArgumentList* arglist,
                                         ArgumentListElement* target) {
     assert(arglist != NULL);
     assert(target != NULL);
