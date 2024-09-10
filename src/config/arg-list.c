@@ -23,12 +23,12 @@ void push_argument_list_element(ArgumentList* arglist,
     element->prev = NULL;
     element->next = NULL;
 
-    ArgumentListElement* current = arglist->list;
-    if (current == NULL) {
-        current = element;
+    if (arglist->list == NULL) {
+        arglist->list = element;
         return;
     }
 
+    ArgumentListElement* current = arglist->list;
     while (current->next != NULL) { current = current->next; }
     current->next = element;
     element->prev = current;
