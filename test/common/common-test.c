@@ -2,7 +2,6 @@
 #include "common.h"
 #include "unity.h"
 #include <stdint.h>
-#include <stdio.h>
 
 void test_imin(void) {
     int a = 4;

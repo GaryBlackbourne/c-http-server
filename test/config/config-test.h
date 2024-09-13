@@ -1,9 +1,6 @@
 #ifndef _COMMON_TEST_H
 #define _COMMON_TEST_H
 
-#include "argument.h"
-#include "arg-list.h"
-
 // config-argument-test.c
 void get_integer_value_test_normal_usage();
 void get_integer_value_test_fail_on_bad_type();
