@@ -4,7 +4,7 @@
 #include "argument.h"
 #include "arg-list.h"
 
-ArgumentListElement* create_argument_list_element(Argument* arg);
+ArgumentListElement* create_argument_list_element(Argument arg);
 
 void push_argument_list_element(ArgumentList* arglist, ArgumentListElement* element);
 

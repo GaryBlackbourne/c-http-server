@@ -5,7 +5,7 @@
 
 typedef struct ArgumentListElement {
 
-    const Argument* argument;
+    Argument argument;
     struct ArgumentListElement* next;
     struct ArgumentListElement* prev;
 
@@ -21,7 +21,7 @@ typedef struct ArgumentList {
 ArgumentList create_argument_list();
 int destroy_argument_list(ArgumentList* list);
 
-int add_argument(ArgumentList* list, Argument* arg);
+int add_argument(ArgumentList* list, Argument arg);
 int find_argument(const ArgumentList* list, const char* string, const Argument** result);
 
 int remove_argument(ArgumentList* list, const char* target_key); // do we need this?

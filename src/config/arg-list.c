@@ -1,17 +1,18 @@
 #include "arg-list.h"
+#include "argument.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
-ArgumentListElement* create_argument_list_element(Argument* arg) {
+ArgumentListElement* create_argument_list_element(Argument arg) {
     ArgumentListElement* element
         = (ArgumentListElement*)malloc(sizeof(ArgumentListElement));
     if (element) {
         element->next     = NULL;
         element->prev     = NULL;
-        element->argument = arg;
     }
+    memcpy((&element->argument), &arg, sizeof(Argument));
     return element;
 }
 
@@ -99,13 +100,13 @@ int destroy_argument_list(ArgumentList* listp) {
         free(current->prev);
     }
     free(current);
+    listp->list = NULL;
 
     return 0;
 }
 
-int add_argument(ArgumentList* arglist, Argument* arg) {
+int add_argument(ArgumentList* arglist, Argument arg) {
     assert(arglist != NULL);
-    assert(arg != NULL);
 
     ArgumentListElement* current = arglist->list;
     if (current == NULL) {
@@ -124,7 +125,7 @@ int find_argument(const ArgumentList* arglist, const char* key,
     assert(result != NULL);
 
     unsigned target_key_len = strlen(key);
-    (*result)               = NULL;
+    *result                 = NULL;
 
     // dummy starter for indexing
     ArgumentListElement cur = {
@@ -136,11 +137,11 @@ int find_argument(const ArgumentList* arglist, const char* key,
 
         current = current->next;
 
-        unsigned element_key_len = strlen(current->argument->key);
+        unsigned element_key_len = strlen(current->argument.key);
 
         if ((element_key_len == target_key_len)
-            && (0 == strncmp(key, current->argument->key, target_key_len))) {
-            (*result) = (current->argument);
+            && (0 == strncmp(key, current->argument.key, target_key_len))) {
+            (*result) = &(current->argument);
             return 0;
         }
     }
@@ -161,13 +162,13 @@ int remove_argument(ArgumentList* arglist, const char* target_key) {
     ArgumentListElement* current        = arglist->list;
     ArgumentListElement* target_element = NULL;
 
-    if (current->argument == target) {
+    if (strncmp(current->argument.key, target->key, ARGUMENT_KEY_LENGTH) == 0) {
         remove_argument_list_element(arglist, current);
     }
 
     while (current->next != NULL) {
         current = current->next;
-        if (current->argument == target) {
+        if (strncmp(current->argument.key, target->key, ARGUMENT_KEY_LENGTH) == 0) {
             target_element = current;
             break;
         }
