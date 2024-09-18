@@ -19,7 +19,7 @@ typedef struct ArgumentList {
 
 // interface
 ArgumentList create_argument_list();
-int destroy_argument_list(ArgumentList* list);
+void destroy_argument_list(ArgumentList* list);
 
 int add_argument(ArgumentList* list, Argument arg);
 int find_argument(const ArgumentList* list, const char* string, const Argument** result);

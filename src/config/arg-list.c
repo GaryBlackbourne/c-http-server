@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 ArgumentListElement* create_argument_list_element(Argument arg) {
     ArgumentListElement* element
@@ -11,6 +12,8 @@ ArgumentListElement* create_argument_list_element(Argument arg) {
     if (element) {
         element->next     = NULL;
         element->prev     = NULL;
+    } else {
+        return NULL;
     }
     memcpy((&element->argument), &arg, sizeof(Argument));
     return element;
@@ -88,29 +91,35 @@ ArgumentList create_argument_list() {
     return list;
 }
 
-int destroy_argument_list(ArgumentList* listp) {
+void destroy_argument_list(ArgumentList* listp) {
     assert(listp != NULL);
     if (listp->list == NULL) {
-        return 0;
+        return;
     }
 
     ArgumentListElement* current = listp->list;
     while (current->next != NULL) {
         current = current->next;
         free(current->prev);
+        current->prev = NULL;
     }
     free(current);
     listp->list = NULL;
 
-    return 0;
+    return;
 }
 
 int add_argument(ArgumentList* arglist, Argument arg) {
     assert(arglist != NULL);
+    errno = 0;
 
     ArgumentListElement* current = arglist->list;
     if (current == NULL) {
         arglist->list = create_argument_list_element(arg);
+        if (arglist->list == NULL) {
+            errno = ENOMEM;
+            return -1;
+        }
     }
 
     push_argument_list_element(arglist, create_argument_list_element(arg));
