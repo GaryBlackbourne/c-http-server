@@ -2,7 +2,7 @@ common-root    := src/common
 
 common-sources := $(wildcard $(common-root)/*.c)
 common-objects := $(patsubst $(common-root)/%.c, $(OBJ_DIR)/common-%.o, $(common-sources))
-common_deps    := $(patsubst $(OBJ_DIR)/%.o, $(OBJ_DIR)/common-%.d, $(common-objects))
+common_deps    := $(patsubst $(OBJ_DIR)/common-%.o, $(OBJ_DIR)/common-%.d, $(common-objects))
 
 objects        += $(common-objects)
 
