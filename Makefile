@@ -32,7 +32,7 @@ all: $(BINARY)
 objects  := $(OBJ_DIR)/main.o
 $(OBJ_DIR)/main.o: src/main.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 -include src/common/Makefile
 -include test/common/Makefile
