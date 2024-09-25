@@ -9,11 +9,22 @@ static const char* default_config_file_path = "$HOME/.config/balu/balu.conf";
 Configuration generate_default_config() {
     Configuration conf;
 
-    conf.general.binary_name = (char*) malloc (strlen(default_binary_name) + 1);
-    strncpy(conf.general.binary_name, default_binary_name, strlen(default_binary_name) + 1);
+    conf.general.binary_name =
+        (char*) malloc (strlen(default_binary_name) + 1);
+    strncpy(
+            conf.general.binary_name,
+            default_binary_name,
+            strlen(default_binary_name) + 1
+            );
 
-    conf.configuration.configuration_file_path = (char*) malloc (strlen(default_config_file_path) + 1);
-    strncpy(conf.configuration.configuration_file_path, default_config_file_path, strlen(default_config_file_path) + 1);
+    conf.configuration.configuration_file_path =
+        (char*) malloc (strlen(default_config_file_path) + 1);
+    strncpy(
+            conf.configuration.configuration_file_path,
+            default_config_file_path,
+            strlen(default_config_file_path) + 1
+            );
+
     return conf;
 }
 
