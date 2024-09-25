@@ -57,13 +57,17 @@ int parse_configuration_file(Configuration *conf, const char * path) {
     // append config
     char* line = NULL;
     size_t line_len = 0;
-    while(getline(&line, &line_len, fd)) {
+    while(getline(&line, &line_len, fd) != -1) {
         int ret = process_config_line(line, line_len, conf);
+        free(line);
+        line = NULL;
         if (ret != 0) {
+            fclose(fd);
             return ret;
         }
     }
 
+    fclose(fd);
     return 0;
 }
 
