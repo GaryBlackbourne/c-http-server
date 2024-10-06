@@ -15,6 +15,7 @@ typedef struct {
 
     struct {
         in_port_t port;
+        short maximum_connection_queue;
     } connection;
 
 } Configuration;

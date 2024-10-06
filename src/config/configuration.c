@@ -27,6 +27,7 @@ Configuration generate_default_config() {
             );
 
     conf.connection.port = 80;
+    conf.connection.maximum_connection_queue = 10;
 
     return conf;
 }
@@ -46,4 +47,7 @@ void print_configuration(const Configuration *config, FILE* fstream) {
     fprintf(fstream,
             "connection:port = %d\n",
             config->connection.port);
+    fprintf(fstream,
+            "connection:maximum_connection_queue = %d\n",
+            config->connection.maximum_connection_queue);
 }
