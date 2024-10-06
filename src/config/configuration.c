@@ -26,6 +26,8 @@ Configuration generate_default_config() {
             strlen(default_config_file_path) + 1
             );
 
+    conf.connection.port = 80;
+
     return conf;
 }
 
@@ -35,6 +37,13 @@ void destroy_config_struct(Configuration *conf) {
 }
 
 void print_configuration(const Configuration *config, FILE* fstream) {
-    fprintf(fstream, "general:binary_name = %s\n", config->general.binary_name);
-    fprintf(fstream, "configuration:configuration_file_path = %s\n", config->configuration.configuration_file_path);
+    fprintf(fstream,
+            "general:binary_name = %s\n",
+            config->general.binary_name);
+    fprintf(fstream,
+            "configuration:configuration_file_path = %s\n",
+            config->configuration.configuration_file_path);
+    fprintf(fstream,
+            "connection:port = %d\n",
+            config->connection.port);
 }

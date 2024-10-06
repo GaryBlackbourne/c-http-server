@@ -1,6 +1,7 @@
 #ifndef _BALU_CONFIGURATION_H
 #define _BALU_CONFIGURATION_H
 
+#include <netinet/in.h>
 #include <stdio.h>
 
 typedef struct {
@@ -11,6 +12,10 @@ typedef struct {
     struct {
         char * configuration_file_path;
     } configuration;
+
+    struct {
+        in_port_t port;
+    } connection;
 
 } Configuration;
 
