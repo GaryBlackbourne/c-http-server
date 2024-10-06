@@ -3,6 +3,7 @@ config-test-objects := $(patsubst test/config/%-test.c, $(OBJ_DIR)/%-test.o, $(c
 config-test-objects += $(OBJ_DIR)/unity.o
 
 config-test         += $(TEST_DIR)/config-test
+tests               += $(config-test)
 
 config-test-CFLAGS  += -IUnity/src
 config-test-CFLAGS  += -Isrc/config

@@ -3,6 +3,7 @@ common-test-objects := $(patsubst test/common/%-test.c, $(OBJ_DIR)/%-test.o, $(c
 common-test-objects += $(OBJ_DIR)/unity.o
 
 common-test         += $(TEST_DIR)/common-test
+tests               += $(common-test)
 
 common-test-CFLAGS  += -IUnity/src
 common-test-CFLAGS  += -Isrc/common

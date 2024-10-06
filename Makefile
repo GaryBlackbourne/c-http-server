@@ -49,10 +49,19 @@ $(OBJ_DIR)/unity.o: Unity/src/unity.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf $(OBJ_DIR)    &>/dev/null
-	@rm -f  $(BINARY)     &>/dev/null
+	@rm -f $(OBJ_DIR)/*.o    &>/dev/null
+	@rm -f $(OBJ_DIR)/*.d    &>/dev/null
+	@rm -f $(BINARY)         &>/dev/null
 .PHONY: clean
 
-distclean:
-	@rm -rf $(OUTPUT_DIR) &>/dev/null
-.PHONY: clean
+distclean: clean
+.PHONY: distclean
+
+# For running tests from make
+define newline
+
+
+endef
+check: $(BINARY) $(tests)
+	$(foreach t, $(tests), ./$(t)$(newline))
+
