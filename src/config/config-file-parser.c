@@ -7,7 +7,9 @@
 #include "configuration.h"
 #include "stdio.h"
 
-static int is_matching_line(const char* line, size_t line_len, const char* expected) {
+#include "_config-file-parser-private.h"
+
+int is_matching_line(const char* line, size_t line_len, const char* expected) {
     assert(line != NULL);
     assert(expected != NULL);
 
@@ -19,7 +21,7 @@ static int is_matching_line(const char* line, size_t line_len, const char* expec
     return (strncmp(line, expected, expected_len) == 0);
 }
 
-static int get_config_line_value(const char* line, size_t len, char** value) {
+int get_config_line_value(const char* line, size_t len, char** value) {
     assert(line != NULL);
     assert(value != NULL);
 
@@ -33,7 +35,7 @@ static int get_config_line_value(const char* line, size_t len, char** value) {
     return -1;
 }
 
-static int process_config_line(const char* line, size_t len, Configuration* config) {
+int process_config_line(const char* line, size_t len, Configuration* config) {
     assert(line != NULL);
     assert(config != NULL);
     char* value = NULL;
@@ -71,10 +73,8 @@ int parse_configuration_file(Configuration *conf, const char * path) {
     return 0;
 }
 
-int config_exists(const char* path) {
+int config_file_exists(const char* path) {
     assert(path != NULL);
-
     struct stat buffer;
-    
     return (stat(path, &buffer) == 0);
 }
