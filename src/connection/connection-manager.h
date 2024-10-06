@@ -4,7 +4,13 @@
 #include "configuration.h"
 
 typedef struct {
-    int listen_socket;
+    struct {
+        int socket;
+        short maximum_queue;
+    } connector;
+    struct {
+
+    } connection_pool;
 } ConnectionManager;
 
 ConnectionManager create_connection_manager(const Configuration* config);
@@ -12,5 +18,7 @@ ConnectionManager create_connection_manager(const Configuration* config);
 int setup_connection_manager(ConnectionManager*conman, const Configuration* config);
 
 int start_connection_manager(ConnectionManager* conman);
+
+int kill_connection_manager(ConnectionManager* conman);
 
 #endif
