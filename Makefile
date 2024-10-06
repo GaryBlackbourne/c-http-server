@@ -40,6 +40,8 @@ $(OBJ_DIR)/main.o: src/main.c
 -include src/config/Makefile
 -include test/config/Makefile
 
+-include src/connection/Makefile
+
 $(BINARY): $(objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
