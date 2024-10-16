@@ -1,5 +1,4 @@
 * C HTTP server
-
 * Specification
 
 What do i need to acomplish?
@@ -22,6 +21,42 @@ This program should be configured by a configuration file
 ** Threading
 Clients should connect, and served by several threads ensuring multiple simultaneous communication channels.
 
+* Core elements of the server
+
+** File manager
+Manages files, opens closes, and serves them to other modules
+This module opens the file if exists, and gives back its content.
+Needed information:
+- directory / directories for the html files to serve
+  
+** Processor
+Processes incomming http requests, and acquires files for response.
+
+** Connection Initializer
+Listens for incomming connection on given port, and sets up communication channels.
+
+** Connection Handler
+A module that implemetns the communication, builds up tcp connection, reading and writing data into sockets.
+All buffering and networking is done in here.
+
+** Configuration parser
+Parses cmd line configs, and config files, sets up a configuration structure
+- generates a list of key value pairs from command line or config file arguments
+- generates server configuration object
+- sets default values
+
+** Setup
+Sets up the server modules.
+
+** Logger
+Stores server logs into a log file.
+
+* Tasklist
+** DONE argparser
+** DONE configuration
+** TODO connection manager
+** TODO processor basic implementation
+** TODO file manager
 * Development decisions
 
 ** HTTP service
@@ -66,40 +101,3 @@ None
 - gtest
 - [[https://github.com/ThrowTheSwitch/Unity][unity]]
 
-* Core elements of the server
-
-** File manager
-Manages files, opens closes, and serves them to other modules
-This module opens the file if exists, and gives back its content.
-Needed information:
-- directory / directories for the html files to serve
-  
-** Processor
-Processes incomming http requests, and acquires files for response.
-
-** Connection Initializer
-Listens for incomming connection on given port, and sets up communication channels.
-
-** Connection Handler
-A module that implemetns the communication, builds up tcp connection, reading and writing data into sockets.
-All buffering and networking is done in here.
-
-** Configuration parser
-Parses cmd line configs, and config files, sets up a configuration structure
-- generates a list of key value pairs from command line or config file arguments
-- generates server configuration object
-- sets default values
-
-** Setup
-Sets up the server modules.
-
-** Logger
-Stores server logs into a log file.
-
-* Tasklist
-
-** TODO full test coverage
-
-** TODO test errno setting
-
-** TODO doxygen docs
