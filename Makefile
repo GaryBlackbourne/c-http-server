@@ -25,6 +25,10 @@ else
 	$(error "Invalid MODE value: $(MODE). Use either 'release' or 'debug'.")
 endif
 
+main-CFLAGS := -Isrc/common
+main-CFLAGS += -Isrc/config
+main-CFLAGS += -Isrc/connection
+
 all: $(BINARY)
 
 -include $(OBJ_DIR)/main.d
@@ -32,7 +36,7 @@ all: $(BINARY)
 objects  := $(OBJ_DIR)/main.o
 $(OBJ_DIR)/main.o: src/main.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(main-CFLAGS) -c $< -o $@
 
 -include src/common/Makefile
 -include test/common/Makefile
