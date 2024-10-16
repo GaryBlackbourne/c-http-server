@@ -2,18 +2,27 @@
 #include "configuration.h"
 #include <assert.h>
 #include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>
 
-ConnectionManager create_connection_manager(const Configuration* config) {
+int setup_worker_pool(ConnectionManager* conman, const Configuration* config) {
+    assert(conman != NULL);
     assert(config != NULL);
 
-    ConnectionManager conman;
-    setup_connection_manager(&conman, config);
+    const uint16_t maximum_connections = config->connection.maximum_connections;
 
-    return conman;
+    conman->worker_pool.handlers =
+        (pthread_t*) malloc (maximum_connections * sizeof(pthread_t));
+
+    memset(conman->worker_pool.handlers, 0, maximum_connections);
+
+    return 0;
 }
 
 int setup_listening_port(ConnectionManager* conman, const Configuration* config) {
+    assert(conman != NULL);
+    assert(config != NULL);
     // listening socket
     // TODO: IPv6 support
     conman->connector.socket = socket(AF_INET, SOCK_STREAM, PF_INET);
@@ -57,9 +66,12 @@ int setup_listening_port(ConnectionManager* conman, const Configuration* config)
 
 int setup_connection_manager(ConnectionManager* conman, const Configuration* config) {
     assert(conman != NULL);
+    assert(config != NULL);
 
     int setup_listen_port_ret = setup_listening_port(conman, config);
     if (setup_listen_port_ret < 0) { return setup_listen_port_ret; }
+    int setup_worker_pool_ret = setup_worker_pool(conman, config);
+    if (setup_worker_pool_ret < 0) { return setup_worker_pool_ret; }
 
     return 0;
 }
@@ -74,5 +86,6 @@ int start_connection_manager(ConnectionManager* conman) {
 }
 
 int kill_connection_manager(ConnectionManager *conman) {
+    assert(conman != NULL);
     return -1;
 }

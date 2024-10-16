@@ -28,6 +28,7 @@ Configuration generate_default_config() {
 
     conf.connection.port = 80;
     conf.connection.maximum_connection_queue = 10;
+    conf.connection.maximum_connections = 256;
 
     return conf;
 }

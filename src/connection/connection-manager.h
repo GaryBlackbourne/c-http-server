@@ -2,6 +2,7 @@
 #define _BALU_CONNECTION_MANAGER_H
 
 #include "configuration.h"
+#include <pthread.h>
 
 typedef struct {
     struct {
@@ -9,8 +10,8 @@ typedef struct {
         short maximum_queue;
     } connector;
     struct {
-
-    } connection_pool;
+        pthread_t *handlers;
+    } worker_pool;
 } ConnectionManager;
 
 ConnectionManager create_connection_manager(const Configuration* config);
