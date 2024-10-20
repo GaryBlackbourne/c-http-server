@@ -4,18 +4,21 @@
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/poll.h>
 #include <sys/socket.h>
+#include <poll.h>
 
 int setup_worker_pool(ConnectionManager* conman, const Configuration* config) {
     assert(conman != NULL);
     assert(config != NULL);
 
-    const uint16_t maximum_connections = config->connection.maximum_connections;
+    conman->worker_pool.max_connections = config->connection.maximum_connections;
+    uint16_t maximum_connections        = config->connection.maximum_connections;
 
-    conman->worker_pool.handlers =
-        (pthread_t*) malloc (maximum_connections * sizeof(pthread_t));
+    conman->worker_pool.connections =
+        (Connection*) malloc (maximum_connections * sizeof(Connection));
 
-    memset(conman->worker_pool.handlers, 0, maximum_connections);
+    memset(conman->worker_pool.connections, 0, maximum_connections);
 
     return 0;
 }
@@ -23,6 +26,7 @@ int setup_worker_pool(ConnectionManager* conman, const Configuration* config) {
 int setup_listening_port(ConnectionManager* conman, const Configuration* config) {
     assert(conman != NULL);
     assert(config != NULL);
+
     // listening socket
     // TODO: IPv6 support
     conman->connector.socket = socket(AF_INET, SOCK_STREAM, PF_INET);
@@ -76,16 +80,93 @@ int setup_connection_manager(ConnectionManager* conman, const Configuration* con
     return 0;
 }
 
+int check_available_connection_slot(ConnectionManager* conman) {
+    assert(conman != NULL);
+    uint16_t max_connections = conman->worker_pool.max_connections;
+    for (int i = 0; i < max_connections; i++) {
+        if (conman->worker_pool.connections[i].running == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int find_connection_slot(ConnectionManager* conman, Connection** conn) {
+    assert(conman != NULL);
+    assert(conn   != NULL);
+
+    uint16_t max_connections = conman->worker_pool.max_connections;
+    Connection* found_empty_connection = NULL;
+
+    for (int i = 0; i < max_connections; i++) {
+        if (conman->worker_pool.connections[i].running == 0) {
+            found_empty_connection = &(conman->worker_pool.connections[i]);
+            break;
+        }
+    }
+
+    if (found_empty_connection == NULL){
+        return -1;
+    }
+
+    (*conn) = found_empty_connection;
+    return 0;
+}
+
 int start_connection_manager(ConnectionManager* conman) {
     assert(conman != NULL);
 
     int listen_ret = listen(conman->connector.socket, conman->connector.maximum_queue);
-    if (listen_ret < 0) { return -1; }
+    if (listen_ret < 0) {
+        perror("listen");
+        return -1;
+    }
+
+    // setup poll list
+    struct pollfd pollfd_connector = {
+        .fd = conman->connector.socket,
+        .events = POLLIN
+    };
+
+    // poll on connector.socket
+    if (poll(&pollfd_connector, 1, -1) < 0) {
+        perror("poll");
+        return -1;
+    }
+
+    struct sockaddr_in client_address;
+    socklen_t client_address_len = sizeof(client_address);
+    
+    // generate new connection
+    Connection conn = {
+        .socket = accept(
+                         conman->connector.socket,
+                         (struct sockaddr*)&client_address,
+                         &client_address_len
+                         ),
+        .running = 0,
+        .handler = 0,
+    };
+    if (conn.socket == -1) {
+        perror("accept");
+        return -1;
+    }
+
+    // add new connection to the pool.
+    Connection* free_slot;
+    if (find_connection_slot(conman, &free_slot) < -1) {
+        return -1;
+    }
+    *free_slot = conn;
+    
+    // check if connections are available
+    int available = check_available_connection_slot(conman);
 
     return 0;
 }
 
 int kill_connection_manager(ConnectionManager *conman) {
     assert(conman != NULL);
+    // unimplemented
     return -1;
 }

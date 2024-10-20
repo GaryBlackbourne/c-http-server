@@ -5,12 +5,19 @@
 #include <pthread.h>
 
 typedef struct {
+    uint8_t running;
+    pthread_t handler;
+    int socket;
+} Connection;
+
+typedef struct {
     struct {
         int socket;
         short maximum_queue;
     } connector;
     struct {
-        pthread_t *handlers;
+        Connection *connections;
+        uint16_t max_connections;
     } worker_pool;
 } ConnectionManager;
 
