@@ -2,13 +2,8 @@
 #define _BALU_CONNECTION_MANAGER_H
 
 #include "configuration.h"
+#include "connection.h"
 #include <pthread.h>
-
-typedef struct {
-    uint8_t running;
-    pthread_t handler;
-    int socket;
-} Connection;
 
 typedef struct {
     struct {

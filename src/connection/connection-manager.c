@@ -1,12 +1,15 @@
 #include "connection-manager.h"
 #include "configuration.h"
+#include "connection.h"
 #include <assert.h>
+#include <errno.h>
 #include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
 #include <poll.h>
+#include <unistd.h>
 
 int setup_worker_pool(ConnectionManager* conman, const Configuration* config) {
     assert(conman != NULL);
@@ -128,41 +131,56 @@ int start_connection_manager(ConnectionManager* conman) {
         .events = POLLIN
     };
 
-    // poll on connector.socket
-    if (poll(&pollfd_connector, 1, -1) < 0) {
-        perror("poll");
-        return -1;
-    }
+    // main request handler loop
+    while(1) {
 
-    struct sockaddr_in client_address;
-    socklen_t client_address_len = sizeof(client_address);
-    
-    // generate new connection
-    Connection conn = {
-        .socket = accept(
-                         conman->connector.socket,
-                         (struct sockaddr*)&client_address,
-                         &client_address_len
-                         ),
-        .running = 0,
-        .handler = 0,
-    };
-    if (conn.socket == -1) {
-        perror("accept");
-        return -1;
-    }
+        // poll on connector.socket
+        if (poll(&pollfd_connector, 1, -1) < 0) {
+            if (errno == EINTR) {
+                // upon signal, we exit
+                return 0;
+            }
+            // if not signal just error, then return with error
+            perror("poll");
+            return -1;
+        }
 
-    // add new connection to the pool.
-    Connection* free_slot;
-    if (find_connection_slot(conman, &free_slot) < -1) {
-        return -1;
-    }
-    *free_slot = conn;
-    
-    // check if connections are available
-    int available = check_available_connection_slot(conman);
+        // accept connection
+        struct sockaddr_in client_address;
+        socklen_t client_address_len = sizeof(client_address);
+        int connection_socket = accept(
+                                       conman->connector.socket,
+                                       (struct sockaddr*)&client_address,
+                                       &client_address_len
+                                       );
+        if (connection_socket == -1) {
+            perror("accept");
+            return -1;
+        }
 
-    return 0;
+        // check for available connection space
+        Connection* conn;
+        if(find_connection_slot(conman, &conn) < 0){
+            // if there is no free connection slot then deny the connection
+            close(connection_socket);
+            continue;
+        }
+
+        conn->socket             = connection_socket;
+        conn->client_address     = client_address;
+        conn->client_address_len = client_address_len;
+        conn->running            = 0;
+        conn->handler            = 0;
+
+        // start connection thread
+        if (start_worker_thread(conn) < 0){
+            return -1;
+        }
+
+    } // end of loop
+
+    // unreachable
+    return -1;
 }
 
 int kill_connection_manager(ConnectionManager *conman) {
