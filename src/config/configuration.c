@@ -26,7 +26,7 @@ Configuration generate_default_config() {
             strlen(default_config_file_path) + 1
             );
 
-    conf.connection.port = 80;
+    conf.connection.port = 8080;
     conf.connection.maximum_connection_queue = 10;
     conf.connection.maximum_connections = 256;
 
