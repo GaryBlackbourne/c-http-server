@@ -45,6 +45,7 @@ $(OBJ_DIR)/main.o: src/main.c
 -include test/config/Makefile
 
 -include src/connection/Makefile
+-include test/connection/Makefile
 
 $(BINARY): $(objects)
 	@mkdir -p $(@D)
