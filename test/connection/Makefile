@@ -13,7 +13,7 @@ $(OBJ_DIR)/%-test.o: test/connection/%-test.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(connection-test-CFLAGS) -c $< -o $@
 
-$(connection-test): $(connection-test-objects) $(connection-objects)
+$(connection-test): $(connection-test-objects) $(connection-objects) $(config-objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
