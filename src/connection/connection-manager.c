@@ -26,13 +26,17 @@ int setup_worker_pool(ConnectionManager* conman, const Configuration* config) {
     return 0;
 }
 
+int cleanup_worker_pool(ConnectionManager* conman, const Configuration * config) {
+    
+}
+
 int setup_listening_port(ConnectionManager* conman, const Configuration* config) {
     assert(conman != NULL);
     assert(config != NULL);
 
     // listening socket
     // TODO: IPv6 support
-    conman->connector.socket = socket(AF_INET, SOCK_STREAM, PF_INET);
+    conman->connector.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (conman->connector.socket < 0) {
         perror("socket");
         return -1;
@@ -160,7 +164,7 @@ int start_connection_manager(ConnectionManager* conman) {
 
         // check for available connection space
         Connection* conn;
-        if(find_connection_slot(conman, &conn) < 0){
+        if(find_connection_slot(conman, &conn) < 0) {
             // if there is no free connection slot then deny the connection
             close(connection_socket);
             continue;
@@ -173,7 +177,7 @@ int start_connection_manager(ConnectionManager* conman) {
         conn->handler            = 0;
 
         // start connection thread
-        if (start_worker_thread(conn) < 0){
+        if (start_worker_thread(conn) < 0) {
             return -1;
         }
 
