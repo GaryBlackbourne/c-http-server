@@ -18,4 +18,7 @@ void* worker_thread(void* vp);
 
 int start_worker_thread(Connection* conn);
 
+#define RECEIVE_CHUNK_SIZE 512
+#define MAX_REQUEST_SIZE   4096
+
 #endif
