@@ -6,7 +6,8 @@
 #include "config-file-parser.h"
 #include "cmdline-parser.h"
 #include "configuration.h"
-#include "connection-manager.h"
+#include "connector.h"
+#include "fifo.h"
 
 int main(int argc, const char* argv[]) {
 
@@ -35,20 +36,9 @@ int main(int argc, const char* argv[]) {
     printf("Default config path: %s\n", main_config.configuration.configuration_file_path);
     printf("Default executable name: %s\n", main_config.general.binary_name);
 
-    // Create and setup connection manager
-    ConnectionManager conman;
-    int ret_conn_setup = setup_connection_manager(&conman, &main_config);
-    if (ret_conn_setup != 0) {
-        return -1;
-        // no resource deallocation?
-    }
-
-    int start_conn_manager = start_connection_manager(&conman);
-    if (start_conn_manager != 0) {
-        return -1;
-        // no resource deallocation?
-    }
-
+    Fifo      task_queue;
+    Connector connector;
+    connector_init(&connector, &task_queue, &main_config);
 
     
     destroy_config_struct(&main_config);

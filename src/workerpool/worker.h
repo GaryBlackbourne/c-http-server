@@ -1,11 +1,9 @@
-#ifndef _BALU_CONNECTION_H
-#define _BALU_CONNECTION_H
+#ifndef _BALU_WORKER_H
+#define _BALU_WORKER_H
 
-#include <stdint.h>
-#include <pthread.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+void worker(void* vp);
 
+/*
 typedef struct {
     uint8_t running;
     pthread_t handler;
@@ -20,5 +18,6 @@ int start_worker_thread(Connection* conn);
 
 #define RECEIVE_CHUNK_SIZE 512
 #define MAX_REQUEST_SIZE   4096
+*/
 
 #endif

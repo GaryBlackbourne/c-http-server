@@ -32,5 +32,5 @@ void test_setup_worker_pool() {
 }
 
 void test_cleanup_worker_pool() {
-    
+    return;
 }

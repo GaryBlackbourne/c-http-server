@@ -3,15 +3,15 @@ MODE            ?= debug
 OUTPUT_DIR      := build
 OBJ_DIR         := $(OUTPUT_DIR)/$(MODE)/.obj-files
 TEST_DIR        := $(OUTPUT_DIR)/$(MODE)/tests
-BINARY_NAME     := balu
+BINARY_NAME     ?= balu
 BINARY          := $(OUTPUT_DIR)/$(MODE)/$(BINARY_NAME)
 CC              := gcc
 
-CFLAGS          := -Wall
+CFLAGS          += -Wall
 CFLAGS          += -Wextra
 CFLAGS          += -MMD
 
-LDFLAGS         := -pthread
+LDFLAGS         += -pthread
 LDFLAGS         += -lm
 
 tests           := 
@@ -27,7 +27,7 @@ endif
 
 main-CFLAGS := -Isrc/common
 main-CFLAGS += -Isrc/config
-main-CFLAGS += -Isrc/connection
+main-CFLAGS += -Isrc/networking
 
 all: $(BINARY)
 
@@ -38,14 +38,17 @@ $(OBJ_DIR)/main.o: src/main.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(main-CFLAGS) -c $< -o $@
 
--include src/common/Makefile
--include test/common/Makefile
+include src/common/Makefile
+include test/common/Makefile
 
--include src/config/Makefile
--include test/config/Makefile
+include src/config/Makefile
+include test/config/Makefile
 
--include src/connection/Makefile
--include test/connection/Makefile
+include src/networking/Makefile
+# include test/networking/Makefile
+
+# -include src/workerpool/Makefile
+# -include test/workerpool/Makefile
 
 $(BINARY): $(objects)
 	@mkdir -p $(@D)
