@@ -1,10 +1,14 @@
 #include "connector.h"
+#include "fifo.h"
+#include "job.h"
 
 #include <assert.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <poll.h>
+#include <errno.h>
 
 int connector_init(Connector* connector, Fifo* job_queue, const Configuration* config) {
     assert(config != NULL);
@@ -47,7 +51,7 @@ int connector_init(Connector* connector, Fifo* job_queue, const Configuration* c
 
 int connector_destroy(Connector* connector) {
     assert(connector != NULL);
-    connector->task_queue = NULL;
+    connector->job_queue = NULL;
     int ret = close(connector->socket);
     if (ret != 0) {
         perror("close");
@@ -57,6 +61,43 @@ int connector_destroy(Connector* connector) {
 
 int connector_start(Connector* connector) {
     assert(connector != NULL);
-    // todo
-    return 0;
+    int ret = listen(connector->socket, 0);
+    if (ret < 0) {
+        perror("listen");
+        return ret;
+    }
+
+    struct pollfd fds;
+    fds.fd = connector->socket;
+    fds.events = POLLIN;
+    fds.revents = 0;
+
+    while (poll(&fds, 1, 0) != -1) {
+        if (fds.revents & POLLIN) {
+            Job job;
+            job.type = task;
+            job.connection.socket =
+                accept(connector->socket,
+                       (struct sockaddr *)&job.connection.address,
+                       &job.connection.address_length);
+            int ret = fifo_push(connector->job_queue, &job, sizeof(Job));
+            if (ret < 0) {
+                fprintf(stderr, "Connection queue is full, dropping connection!");
+                close(job.connection.socket);
+            }
+        } else {
+            break;
+        }
+    }
+
+    if (errno == EINVAL) { // A signal has been caught!
+        return 0;
+    } else {
+        perror("poll");
+        return -1;
+    }
+    
+    // unreachable
+    return -1;
 }
+
