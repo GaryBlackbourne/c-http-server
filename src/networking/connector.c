@@ -61,7 +61,7 @@ int connector_destroy(Connector* connector) {
 
 int connector_start(Connector* connector) {
     assert(connector != NULL);
-    int ret = listen(connector->socket, 0);
+    int ret = listen(connector->socket, 5); // why 5?
     if (ret < 0) {
         perror("listen");
         return ret;
@@ -72,7 +72,7 @@ int connector_start(Connector* connector) {
     fds.events = POLLIN;
     fds.revents = 0;
 
-    while (poll(&fds, 1, 0) != -1) {
+    while (poll(&fds, 1, 100/*ms*/) != -1) {
         if (fds.revents & POLLIN) {
             Job job;
             job.type = task;
@@ -82,11 +82,11 @@ int connector_start(Connector* connector) {
                        &job.connection.address_length);
             int ret = fifo_push(connector->job_queue, &job, sizeof(Job));
             if (ret < 0) {
-                fprintf(stderr, "Connection queue is full, dropping connection!");
+                fprintf(stderr, "Connection queue is full, dropping connection!\n");
                 close(job.connection.socket);
+            }else{
+                printf("new job is added\n");
             }
-        } else {
-            break;
         }
     }
 

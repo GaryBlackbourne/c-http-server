@@ -10,7 +10,7 @@
 #include "fifo.h"
 
 int main(int argc, const char* argv[]) {
-
+    
     // Generate default configuration
     Configuration main_config = generate_default_config();
 
@@ -36,10 +36,13 @@ int main(int argc, const char* argv[]) {
     printf("Default config path: %s\n", main_config.configuration.configuration_file_path);
     printf("Default executable name: %s\n", main_config.general.binary_name);
 
-    Fifo      task_queue;
-    Connector connector;
-    connector_init(&connector, &task_queue, &main_config);
+    Fifo      job_queue;
+    init_fifo(&job_queue, 20);
 
+    Connector connector;
+    connector_init(&connector, &job_queue, &main_config);
+    
+    connector_start(&connector);
     
     destroy_config_struct(&main_config);
     return 0;
