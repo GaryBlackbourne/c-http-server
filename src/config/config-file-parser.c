@@ -2,6 +2,7 @@
 #include <string.h>
 #include <assert.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include "config-file-parser.h"
 #include "configuration.h"
@@ -76,5 +77,11 @@ int parse_configuration_file(Configuration *conf, const char * path) {
 int config_file_exists(const char* path) {
     assert(path != NULL);
     struct stat buffer;
-    return (stat(path, &buffer) == 0);
+    if (stat(path, &buffer) == 0) {
+        errno = 0;
+        return 1;
+    } else {
+        errno = 0;
+        return 0;
+    }
 }
