@@ -53,4 +53,7 @@ void print_configuration(const Configuration *config, FILE* fstream) {
     fprintf(fstream,
             "connection:maximum_connection_queue = %d\n",
             config->connection.maximum_connection_queue);
+    fprintf(fstream,
+           "connection:job_queue_length = %d\n",
+           config->job_queue_length);
 }
