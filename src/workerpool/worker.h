@@ -1,23 +1,18 @@
 #ifndef _BALU_WORKER_H
 #define _BALU_WORKER_H
 
-void worker(void* vp);
+#include <stdint.h>
+#include <pthread.h>
+#include "connection.h"
 
-/*
 typedef struct {
-    uint8_t running;
     pthread_t handler;
-    int socket;
-    struct sockaddr_in client_address;
-    socklen_t client_address_len;
-} Connection;
+    void (*worker_function) (void* vp);
+    Connection connection;
+} Worker;
 
-void* worker_thread(void* vp);
+int worker_init(Worker* worker);
 
-int start_worker_thread(Connection* conn);
-
-#define RECEIVE_CHUNK_SIZE 512
-#define MAX_REQUEST_SIZE   4096
-*/
+int worker_destroy(Worker* worker);
 
 #endif

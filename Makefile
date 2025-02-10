@@ -47,7 +47,7 @@ include test/config/Makefile
 include src/networking/Makefile
 # include test/networking/Makefile
 
-# -include src/workerpool/Makefile
+-include src/workerpool/Makefile
 # -include test/workerpool/Makefile
 
 $(BINARY): $(objects)
