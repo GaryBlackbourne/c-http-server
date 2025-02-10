@@ -66,28 +66,28 @@ int connector_start(Connector* connector) {
         return ret;
     }
 
-    struct pollfd fds;
-    fds.fd = connector->socket;
-    fds.events = POLLIN;
-    fds.revents = 0;
+    /* struct pollfd fds; */
+    /* fds.fd = connector->socket; */
+    /* fds.events = POLLIN; */
+    /* fds.revents = 0; */
 
-    while (poll(&fds, 1, 100/*ms*/) != -1) {
-        if (fds.revents & POLLIN) {
-            Job job;
-            job.type = task;
-            job.connection.socket =
-                accept(connector->socket,
-                       (struct sockaddr *)&job.connection.address,
-                       &job.connection.address_length);
-            int ret = fifo_push(connector->job_queue, &job, sizeof(Job));
-            if (ret < 0) {
-                fprintf(stderr, "Connection queue is full, dropping connection!\n");
-                close(job.connection.socket);
-            }else{
-                printf("new job is added\n");
-            }
-        }
-    }
+    /* while (poll(&fds, 1, 100/\*ms*\/) != -1) { */
+    /*     if (fds.revents & POLLIN) { */
+    /*         Job job; */
+    /*         job.type = task; */
+    /*         job.connection.socket = */
+    /*             accept(connector->socket, */
+    /*                    (struct sockaddr *)&job.connection.address, */
+    /*                    &job.connection.address_length); */
+    /*         int ret = fifo_push(&connector->job_queue, &job, sizeof(Job)); */
+    /*         if (ret < 0) { */
+    /*             fprintf(stderr, "Connection queue is full, dropping connection!\n"); */
+    /*             close(job.connection.socket); */
+    /*         }else{ */
+    /*             printf("new job is added\n"); */
+    /*         } */
+    /*     } */
+    /* } */
 
     if (errno == EINVAL) { // A signal has been caught!
         return 0;
