@@ -6,10 +6,10 @@
 
 typedef struct {
     int socket;
-    Fifo* job_queue;
+    Fifo job_queue;
 }Connector;
 
-int connector_init(Connector* connector, Fifo* job_queue, const Configuration* config);
+int connector_init(Connector* connector, const Configuration* config);
 
 int connector_destroy(Connector* connector);
 

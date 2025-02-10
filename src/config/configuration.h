@@ -19,6 +19,8 @@ typedef struct {
         uint16_t maximum_connections;
     } connection;
 
+    uint16_t job_queue_length;
+
 } Configuration;
 
 Configuration generate_default_config();

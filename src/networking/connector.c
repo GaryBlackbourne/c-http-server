@@ -10,12 +10,11 @@
 #include <poll.h>
 #include <errno.h>
 
-int connector_init(Connector* connector, Fifo* job_queue, const Configuration* config) {
+int connector_init(Connector* connector, const Configuration* config) {
     assert(config != NULL);
-    assert(job_queue != NULL);
 
-    connector->job_queue = job_queue;
-    
+    init_fifo(&(connector->job_queue), config->job_queue_length);
+
     connector->socket = socket(AF_INET, SOCK_STREAM, 0);
     int reuse = 1;
     int setsockopt_ret =
@@ -51,7 +50,7 @@ int connector_init(Connector* connector, Fifo* job_queue, const Configuration* c
 
 int connector_destroy(Connector* connector) {
     assert(connector != NULL);
-    connector->job_queue = NULL;
+    destroy_fifo(&connector->job_queue);
     int ret = close(connector->socket);
     if (ret != 0) {
         perror("close");
