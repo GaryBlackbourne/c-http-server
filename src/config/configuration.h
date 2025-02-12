@@ -21,6 +21,8 @@ typedef struct {
 
     uint16_t job_queue_length;
 
+    uint16_t worker_pool_lize;
+
 } Configuration;
 
 Configuration generate_default_config();
