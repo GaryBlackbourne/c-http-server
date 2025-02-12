@@ -1,0 +1,38 @@
+﻿---
+BasedOnStyle: LLVM
+AccessModifierOffset: '-4'
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: 'true'
+AlignConsecutiveAssignments: 'true'
+AlignConsecutiveDeclarations: 'true'
+AlignEscapedNewlines: Right
+AlignOperands: 'true'
+AlignTrailingComments: 'true'
+AllowAllArgumentsOnNextLine: 'false'
+AllowAllConstructorInitializersOnNextLine: 'false'
+AllowAllParametersOfDeclarationOnNextLine: 'false'
+AllowShortBlocksOnASingleLine: 'true'
+AllowShortCaseLabelsOnASingleLine: 'false'
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: 'true'
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: 'false'
+AlwaysBreakTemplateDeclarations: 'Yes'
+BinPackArguments: 'true'
+BinPackParameters: 'true'
+BreakBeforeBraces: Attach
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 110
+DisableFormat: 'false'
+IndentWidth: 4
+Language: Cpp
+PointerAlignment: Left
+SortIncludes: 'false'
+SpacesBeforeTrailingComments: '2'
+TabWidth: '4'
+UseTab: Never
+NamespaceIndentation: All
+
+...
