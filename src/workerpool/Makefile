@@ -7,6 +7,7 @@ workerpool-deps    := $(patsubst $(OBJ_DIR)/workerpool-%.o, $(OBJ_DIR)/workerpoo
 objects            += $(workerpool-objects)
 
 workerpool-CFLAGS  := -Isrc/config
+workerpool-CFLAGS  += -Isrc/common
 workerpool-CFLAGS  += -Isrc/networking
 workerpool-CFLAGS  += -I.
 
