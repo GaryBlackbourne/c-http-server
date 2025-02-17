@@ -6,12 +6,13 @@
 #include "worker.h"
 #include "fifo.h"
 
-int workerpool_init(Workerpool* workerpool, Fifo* job_queue, const Configuration* config) {
+int workerpool_init(Workerpool* workerpool, Fifo* job_queue,
+                    const Configuration* config) {
     assert(workerpool != NULL);
     assert(config != NULL);
 
     workerpool->pool_size = config->worker_pool_lize;
-    workerpool->pool      = (Worker*)malloc(workerpool->pool_size * sizeof(Worker));
+    workerpool->pool = (Worker*)malloc(workerpool->pool_size * sizeof(Worker));
 
     workerpool->job_queue = job_queue;
 
@@ -19,9 +20,10 @@ int workerpool_init(Workerpool* workerpool, Fifo* job_queue, const Configuration
 
     int fail_index = 0;
     for (int i = 0; i < workerpool->pool_size; i++) {
-        int ret = worker_init(&workerpool->pool[i],
-                              create_worker_argument(job_queue, &workerpool->threads_should_quit,
-                                                     &workerpool->cond_var, &workerpool->mux));
+        int ret = worker_init(
+            &workerpool->pool[i],
+            create_worker_argument(job_queue, &workerpool->threads_should_quit,
+                                   &workerpool->cond_var, &workerpool->mux));
         if (ret != 0) {
             fail_index = i;
             goto error_on_worker_init;
@@ -34,7 +36,9 @@ int workerpool_init(Workerpool* workerpool, Fifo* job_queue, const Configuration
     return 0;
 
 error_on_worker_init:
-    for (int i = 0; i < fail_index; i++) { worker_destroy(&workerpool->pool[i]); }
+    for (int i = 0; i < fail_index; i++) {
+        worker_destroy(&workerpool->pool[i]);
+    }
     free(workerpool->pool);
     workerpool->pool = NULL;
     return -2;
@@ -60,7 +64,9 @@ int workerpool_stop(Workerpool* workerpool) {
 int workerpool_destroy(Workerpool* workerpool) {
     assert(workerpool != NULL);
 
-    for (int i = 0; i < workerpool->pool_size; i++) { worker_destroy(&workerpool->pool[i]); }
+    for (int i = 0; i < workerpool->pool_size; i++) {
+        worker_destroy(&workerpool->pool[i]);
+    }
     free(workerpool->pool);
     workerpool->pool = NULL;
 

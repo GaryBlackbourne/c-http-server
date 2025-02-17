@@ -24,7 +24,7 @@ BinPackArguments: 'true'
 BinPackParameters: 'true'
 BreakBeforeBraces: Attach
 BreakConstructorInitializers: AfterColon
-ColumnLimit: 110
+ColumnLimit: 80
 DisableFormat: 'false'
 IndentWidth: 4
 Language: Cpp
