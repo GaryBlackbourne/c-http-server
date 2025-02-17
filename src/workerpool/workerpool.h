@@ -15,6 +15,10 @@ typedef struct {
 
 int workerpool_init(Workerpool* workerpool, const Fifo* job_queue, const Configuration* config);
 
+int workerpool_start(Workerpool* workerpool);
+
+int workerpool_stop(Workerpool* workerpool);
+
 int workerpool_destroy(Workerpool* workerpool);
 
 #endif

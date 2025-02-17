@@ -38,6 +38,25 @@ int workerpool_init(Workerpool* workerpool, const Fifo* job_queue, const Configu
     return -2;
 }
 
+int workerpool_start(Workerpool* workerpool) {
+    assert(workerpool != NULL);
+
+    for (int i = 0; i < workerpool->pool_size; i++) {
+        int ret = worker_start(&workerpool->pool[i]);
+        if (ret != 0) {
+            return ret;
+        }
+    }
+
+    return 0;
+}
+
+int workerpool_stop(Workerpool* workerpool) {
+    assert(workerpool != NULL);
+    
+    return 0;
+}
+
 int workerpool_destroy(Workerpool* workerpool) {
     assert(workerpool != NULL);
 
