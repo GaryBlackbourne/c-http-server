@@ -6,17 +6,17 @@
 
 typedef struct {
     struct {
-        char * binary_name;
+        char* binary_name;
     } general;
 
     struct {
-        char * configuration_file_path;
+        char* configuration_file_path;
     } configuration;
 
     struct {
         in_port_t port;
-        short maximum_connection_queue;
-        uint16_t maximum_connections;
+        short     maximum_connection_queue;
+        uint16_t  maximum_connections;
     } connection;
 
     uint16_t job_queue_length;

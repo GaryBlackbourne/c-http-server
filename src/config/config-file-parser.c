@@ -16,9 +16,7 @@ int is_matching_line(const char* line, size_t line_len, const char* expected) {
 
     size_t expected_len = strlen(expected);
 
-    if (line_len < expected_len){
-        return 0;
-    }
+    if (line_len < expected_len) { return 0; }
     return (strncmp(line, expected, expected_len) == 0);
 }
 
@@ -27,8 +25,8 @@ int get_config_line_value(const char* line, size_t len, char** value) {
     assert(value != NULL);
 
     char* v = (char*)line;
-    for (size_t i = 0; i < len; i ++) {
-        if ( *(v + i) == '=' ) {
+    for (size_t i = 0; i < len; i++) {
+        if (*(v + i) == '=') {
             *value = (v + i);
             return 0;
         }
@@ -47,7 +45,7 @@ int process_config_line(const char* line, size_t len, Configuration* config) {
     return 0;
 }
 
-int parse_configuration_file(Configuration *conf, const char * path) {
+int parse_configuration_file(Configuration* conf, const char* path) {
     assert(path != NULL);
 
     FILE* fd = fopen(path, "r");
@@ -56,11 +54,11 @@ int parse_configuration_file(Configuration *conf, const char * path) {
         return -1;
     }
 
-    // parse config line by line 
+    // parse config line by line
     // append config
-    char* line = NULL;
+    char*  line     = NULL;
     size_t line_len = 0;
-    while(getline(&line, &line_len, fd) != -1) {
+    while (getline(&line, &line_len, fd) != -1) {
         int ret = process_config_line(line, line_len, conf);
         free(line);
         line = NULL;

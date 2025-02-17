@@ -12,16 +12,17 @@ int is_matching_arg(const char* arg, const char* expected) {
     assert(arg != NULL);
     assert(expected != NULL);
 
-    int arg_len = strlen(arg);
+    int arg_len      = strlen(arg);
     int expected_len = strlen(expected);
 
     if (arg_len != expected_len) {
-        return 0; // 0 means false here
+        return 0;  // 0 means false here
     }
     return (strncmp(arg, expected, expected_len) == 0);
 }
 
-int parse_cmdline_arguments(const int argc, const char **argv, Configuration *conf) {
+int parse_cmdline_arguments(const int argc, const char** argv,
+                            Configuration* conf) {
     assert(conf != NULL);
     assert(argv != NULL);
 

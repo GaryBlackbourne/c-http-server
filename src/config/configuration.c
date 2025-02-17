@@ -14,8 +14,8 @@ Configuration generate_default_config() {
     strncpy(conf.general.binary_name, default_binary_name,
             strlen(default_binary_name) + 1);
 
-    conf.configuration.configuration_file_path
-        = (char*)malloc(strlen(default_config_file_path) + 1);
+    conf.configuration.configuration_file_path =
+        (char*)malloc(strlen(default_config_file_path) + 1);
     strncpy(conf.configuration.configuration_file_path,
             default_config_file_path, strlen(default_config_file_path) + 1);
 
@@ -36,8 +36,7 @@ void destroy_config_struct(Configuration* conf) {
 }
 
 void print_configuration(const Configuration* config, FILE* fstream) {
-    fprintf(fstream, "general:binary_name = %s\n",
-            config->general.binary_name);
+    fprintf(fstream, "general:binary_name = %s\n", config->general.binary_name);
     fprintf(fstream, "configuration:configuration_file_path = %s\n",
             config->configuration.configuration_file_path);
     fprintf(fstream, "connection:port = %d\n", config->connection.port);

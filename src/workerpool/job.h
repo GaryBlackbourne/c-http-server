@@ -10,7 +10,7 @@ enum JobType {
 
 typedef struct {
     enum JobType type;
-    Connection connection;
+    Connection   connection;
 } Job;
 
 #endif

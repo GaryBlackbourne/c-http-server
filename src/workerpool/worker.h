@@ -9,13 +9,15 @@
 #include "fifo.h"
 
 typedef struct {
-    Fifo*     job_queue;
-    bool*           should_quit;
-    pthread_cond_t* cond_var;
+    Fifo*            job_queue;
+    bool*            should_quit;
+    pthread_cond_t*  cond_var;
     pthread_mutex_t* mux;
 } WorkerArgument;
 
-WorkerArgument create_worker_argument(Fifo* job_queue, bool* should_quit, pthread_cond_t* cond_var, pthread_mutex_t* mux);
+WorkerArgument create_worker_argument(Fifo* job_queue, bool* should_quit,
+                                      pthread_cond_t*  cond_var,
+                                      pthread_mutex_t* mux);
 
 typedef struct {
     pthread_t handler;

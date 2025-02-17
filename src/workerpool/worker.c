@@ -10,7 +10,8 @@ int worker_start(Worker* worker) {
     assert(worker != NULL);
 
     // create thread with default attributes
-    int ret = pthread_create(&worker->handler, NULL, worker->function, (void*)&worker->argument);
+    int ret = pthread_create(&worker->handler, NULL, worker->function,
+                             (void*)&worker->argument);
 
     // check for errors
     if (ret < 0) {
@@ -45,7 +46,8 @@ int worker_destroy(Worker* worker) {
     return 0;
 }
 
-WorkerArgument create_worker_argument(Fifo* job_queue, bool* should_quit, pthread_cond_t* cond_var,
+WorkerArgument create_worker_argument(Fifo* job_queue, bool* should_quit,
+                                      pthread_cond_t*  cond_var,
                                       pthread_mutex_t* mux) {
     WorkerArgument arg = {
         .should_quit = should_quit,
@@ -66,15 +68,13 @@ void* worker_thread_function(void* arg) {
         // cond wait on if job arrives, or should exit
         pthread_cond_wait(params->cond_var, params->mux);
 
-        if (*params->should_quit) {
-            break;
-        }
+        if (*params->should_quit) { break; }
 
         // else we have a new job.
         // get data from fifo
         int ret = fifo_pop(params->job_queue, &job, &job_size);
         // unlock mutex, we do not access shared resources anymore
-        pthread_mutex_unlock(params->mux); 
+        pthread_mutex_unlock(params->mux);
         if (ret != 0) {
             // handle error
             continue;

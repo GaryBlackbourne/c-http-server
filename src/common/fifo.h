@@ -6,12 +6,12 @@
 /**
  * @brief Fifo element struct to contain data stored in a fifo.
  *
- * This struct contains a void pointer pointing at a given data and contains a size
- * indicating the size of the data object. This struct is used to contain data in a
- * fifo instance.
+ * This struct contains a void pointer pointing at a given data and contains a
+ * size indicating the size of the data object. This struct is used to contain
+ * data in a fifo instance.
  */
 typedef struct {
-    void* data;
+    void*    data;
     uint16_t data_size;
 } FifoElement;
 
@@ -19,23 +19,24 @@ typedef struct {
  * @brief General purpose fifo struct.
  *
  * The Fifo struct represents a general purpose fifo. Containing a FifoElement,
- * which contains the data in the fifo. The maximum size is given during initialization,
- * and the fifo is implemented as a ring buffer. The 'length' member represents the
- * size of the fifo. 'index' member is used to calculate the current head, and items num
- * containing the current amount of the contained elements.
+ * which contains the data in the fifo. The maximum size is given during
+ * initialization, and the fifo is implemented as a ring buffer. The 'length'
+ * member represents the size of the fifo. 'index' member is used to calculate
+ * the current head, and items num containing the current amount of the
+ * contained elements.
  */
 typedef struct {
     FifoElement* list;
-    uint32_t length;
-    uint32_t index;
-    uint32_t items_num;
+    uint32_t     length;
+    uint32_t     index;
+    uint32_t     items_num;
 } Fifo;
 
 /**
  * @brief Initialize fifo instance.
  *
  * The function initializes a fifo instance. The maximum amount of data is
- * set by the second parameter. 
+ * set by the second parameter.
  *
  * @param fifo - Fifo* pointer to the fifo instance.
  * @param length - uint32_t maximum size of the fifo.
@@ -47,7 +48,7 @@ int init_fifo(Fifo* fifo, uint32_t length);
 /**
  * @brief Destroy fifo instance.
  *
- * The function destroys a fifo instance. 
+ * The function destroys a fifo instance.
  *
  * @param fifo - Fifo* pointer to the fifo instance.
  *

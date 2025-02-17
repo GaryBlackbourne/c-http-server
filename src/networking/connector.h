@@ -4,20 +4,18 @@
 #include "fifo.h"
 #include "configuration.h"
 
-
 /**
  * @brief Connector struct to handle requests.
  *
  * This struct contains a socket which can be polled for requests and a job
- * queue, which is loaded as requests are received. The  handler threads 
+ * queue, which is loaded as requests are received. The  handler threads
  * read this queue and process the incomming requests. The job queue contains
  * Job structs behind a void pointer. More at src/networking/job.h
  */
 typedef struct {
-    int socket;
+    int  socket;
     Fifo job_queue;
-}Connector;
-
+} Connector;
 
 /**
  * @brief Initializer for the connector struct.
@@ -71,4 +69,3 @@ int connector_start(Connector* connector);
 int connector_stop(Connector* connector);
 
 #endif
-

@@ -10,4 +10,3 @@ int get_config_line_value(const char* line, size_t len, char** value);
 int process_config_line(const char* line, size_t len, Configuration* config);
 
 #endif
-

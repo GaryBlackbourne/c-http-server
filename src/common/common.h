@@ -6,8 +6,8 @@
 /**
  * @brief Find the bigger integer.
  *
- * @param a - int 
- * @param b - int 
+ * @param a - int
+ * @param b - int
  *
  * @return int the bigger number
  */
@@ -16,8 +16,8 @@ int imax(int a, int b);
 /**
  * @brief Find the smaller integer.
  *
- * @param a - int 
- * @param b - int 
+ * @param a - int
+ * @param b - int
  *
  * @return int the smaller number
  */

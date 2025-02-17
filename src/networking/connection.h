@@ -4,9 +4,9 @@
 #include <netinet/in.h>
 
 typedef struct {
-    int socket;
+    int                socket;
     struct sockaddr_in address;
-    socklen_t address_length;
+    socklen_t          address_length;
 } Connection;
 
 #endif

@@ -6,8 +6,8 @@
 /**
  * @brief Parse arguments from command line and override configuration values.
  *
- * This function gets the argument list, and then sweeps it. For every option found,
- * the given configuration struct is updated accordingly.
+ * This function gets the argument list, and then sweeps it. For every option
+ * found, the given configuration struct is updated accordingly.
  *
  * @param argc - const int argument counter.
  * @param argv - const char** string array of the given arguments.
@@ -15,6 +15,7 @@
  *
  * @return Upon success, 0 is returned. On error, a non-zero number is returned.
  */
-int parse_cmdline_arguments(const int argc, const char *argv[], Configuration *conf);
-    
-#endif    
+int parse_cmdline_arguments(const int argc, const char* argv[],
+                            Configuration* conf);
+
+#endif
