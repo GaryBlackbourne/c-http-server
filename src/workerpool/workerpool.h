@@ -4,14 +4,17 @@
 #include <stdint.h>
 #include "configuration.h"
 
+#include "worker.h"
+#include "fifo.h"
+
 typedef struct {
-    // workers
-    uint16_t max_workers;
+    Worker*     pool;
+    uint16_t    pool_size;
+    const Fifo* job_queue;
 } Workerpool;
 
-int workerpool_init(Workerpool* workerpool, const Configuration* config);
+int workerpool_init(Workerpool* workerpool, const Fifo* job_queue, const Configuration* config);
 
 int workerpool_destroy(Workerpool* workerpool);
-
 
 #endif
