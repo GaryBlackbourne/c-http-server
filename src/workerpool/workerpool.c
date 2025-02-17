@@ -20,7 +20,7 @@ int workerpool_init(Workerpool* workerpool, const Fifo* job_queue, const Configu
 
     int fail_index = 0;
     for (int i = 0; i < workerpool->pool_size; i++) {
-        int ret = worker_init(&workerpool->pool[i]);
+        int ret = worker_init(&workerpool->pool[i], job_queue);
         if (ret != 0) {
             fail_index = i;
             goto error_on_worker_init;
