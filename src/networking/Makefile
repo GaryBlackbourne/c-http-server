@@ -6,6 +6,7 @@ objects            += $(networking-objects)
 
 networking-CFLAGS  += -Isrc/config
 networking-CFLAGS  += -Isrc/common
+networking-CFLAGS  += -Isrc/workerpool
 networking-CFLAGS  += -I.
 
 networking: $(networking-objects)
