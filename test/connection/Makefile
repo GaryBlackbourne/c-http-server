@@ -5,13 +5,9 @@ connection-test-objects += $(OBJ_DIR)/unity.o
 connection-test         += $(TEST_DIR)/connection-test
 tests                   += $(connection-test)
 
-connection-test-CFLAGS  += -IUnity/src
-connection-test-CFLAGS  += -Isrc/connection
-connection-test-CFLAGS  += -Isrc/config
-
 $(OBJ_DIR)/%-test.o: test/connection/%-test.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(connection-test-CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(test-CFLAGS) -c $< -o $@
 
 $(connection-test): $(connection-test-objects) $(connection-objects) $(config-objects)
 	@mkdir -p $(@D)

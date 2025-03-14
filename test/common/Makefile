@@ -5,12 +5,9 @@ common-test-objects += $(OBJ_DIR)/unity.o
 common-test         += $(TEST_DIR)/common-test
 tests               += $(common-test)
 
-common-test-CFLAGS  += -IUnity/src
-common-test-CFLAGS  += -Isrc/common
-
 $(OBJ_DIR)/%-test.o: test/common/%-test.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(common-test-CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(test-CFLAGS) -c $< -o $@
 
 $(common-test): $(common-test-objects) $(common-objects)
 	@mkdir -p $(@D)

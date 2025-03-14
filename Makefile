@@ -25,9 +25,13 @@ else
 	$(error "Invalid MODE value: $(MODE). Use either 'release' or 'debug'.")
 endif
 
-main-CFLAGS := -Isrc/common
-main-CFLAGS += -Isrc/config
-main-CFLAGS += -Isrc/networking
+CFLAGS += -Isrc
+CFLAGS += -Isrc/common
+CFLAGS += -Isrc/config
+CFLAGS += -Isrc/networking
+CFLAGS += -Isrc/workerpool
+
+test-CFLAGS := -IUnity/src
 
 all: $(BINARY)
 

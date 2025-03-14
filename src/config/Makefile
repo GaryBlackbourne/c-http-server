@@ -6,14 +6,11 @@ config-deps    := $(patsubst $(OBJ_DIR)/config-%.o, $(OBJ_DIR)/config-%.d, $(con
 
 objects        += $(config-objects)
 
-config-CFLAGS  := -Isrc/common
-config-CFLAGS  += -I.
-
 config: $(config-objects)
 
 $(OBJ_DIR)/config-%.o: $(config-root)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(config-CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 -include $(config-deps)
 

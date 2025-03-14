@@ -4,15 +4,10 @@ networking-deps    := $(patsubst $(OBJ_DIR)/networking-%.o, $(OBJ_DIR)/networkin
 
 objects            += $(networking-objects)
 
-networking-CFLAGS  += -Isrc/config
-networking-CFLAGS  += -Isrc/common
-networking-CFLAGS  += -Isrc/workerpool
-networking-CFLAGS  += -I.
-
 networking: $(networking-objects)
 
 $(OBJ_DIR)/networking-%.o: src/networking/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(networking-CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 -include $(networking-deps)
