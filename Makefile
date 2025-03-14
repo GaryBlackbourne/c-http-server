@@ -9,7 +9,9 @@ CC              := gcc
 
 CFLAGS          += -Wall
 CFLAGS          += -Wextra
+CFLAGS          += -Wpedantic
 CFLAGS          += -MMD
+CFLAGS          += -std=c23
 
 LDFLAGS         += -pthread
 LDFLAGS         += -lm
