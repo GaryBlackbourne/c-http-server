@@ -12,6 +12,7 @@
 
 int connector_init(Connector* connector, const Configuration* config) {
     assert(config != NULL);
+    assert(connector != NULL);
 
     init_fifo(&(connector->job_queue), config->job_queue_length);
 
