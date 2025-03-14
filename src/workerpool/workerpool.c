@@ -70,5 +70,8 @@ int workerpool_destroy(Workerpool* workerpool) {
     free(workerpool->pool);
     workerpool->pool = NULL;
 
+    pthread_mutex_destroy(&workerpool->mux);
+    pthread_cond_destroy(&workerpool->cond_var);
+
     return 0;
 }
