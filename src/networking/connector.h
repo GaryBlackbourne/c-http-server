@@ -56,16 +56,4 @@ int connector_destroy(Connector* connector);
  */
 int connector_start(Connector* connector);
 
-/**
- * @brief Stop the connector.
- *
- * This function stops the connector, disables the listen mode on the socket.
- *
- * @param connector - connector* pointer to the connector instance.
- *
- * @return integer, indicating error or success. on success returns 0, on
- * error returns an error code.
- */
-int connector_stop(Connector* connector);
-
 #endif
