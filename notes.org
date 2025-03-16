@@ -1,28 +1,13 @@
-* C HTTP server
 * Specification
 
-What do i need to acomplish?
-Short summary of what i need to acomplish in this project
+HTTP server program. When running, this program should serve as a http server,
+giving websites back, on http requests. First goal is to serve only files,
+without any server side code execution. (only http get)  This program should
+be configured by a configuration file, and/or command line flags. Clients should
+be able to connect, and served by several threads ensuring multiple simultaneous
+communication channels.
 
-** HTTP service
-When running, this program should serve as a http server, giving websites back, on
-http requests.
-
-** Logging and output
-Output should be going into log files, instead of the standard output.
-logfiles should be organized, and named by date, and every session has to has its own file.
-log entries should begin with a timestamp and prefixed by category, if a connection thred creates it, it should contain the ip address as well.
-
-[<timestamp>] [<category>] <content>
-
-** Configuration
-This program should be configured by a configuration file
-
-** Threading
-Clients should connect, and served by several threads ensuring multiple simultaneous communication channels.
-
-* Core elements of the server
-
+* Modules
 ** File manager
 Manages files, opens closes, and serves them to other modules
 This module opens the file if exists, and gives back its content.
@@ -51,53 +36,21 @@ Sets up the server modules.
 ** Logger
 Stores server logs into a log file.
 
-* Tasklist
+* Tasks
 ** DONE argparser
 ** DONE configuration
-** TODO connection manager
-** TODO processor basic implementation
-** TODO file manager
-* Development decisions
-
-** HTTP service
-
-*** TODO Which standard should i follow?
-
-*** TODO Should i follow more, or strip some parts?
-
-*** TODO what requests should i handle?
-First, only GET, then we might append
-
-** Logging
-
-*** TODO Where to put my logfiles?
-configurable, default path is /tmp
-
-*** TODO Should it be configured by args as well?
-yes
-
-** Configuration
-
-*** TODO What format should i use for configs?
-custom text?
-
-*** TODO should i use a library as a parser for that?
-no?
-
-** Building
-
-*** TODO How should i build my app? Makefile, shell, cmake?
-configure script, auto-tools, etc?
-First time, only a simple makefile, and a build.sh if needed.
-
-*** DONE what libs should i use?
-None
-
-** Testing
-
-*** TODO Which test environment should i use?
-- [[https://cmocka.org/][cmocka]]
-- [[https://nemequ.github.io/munit/#][qnit]]
-- gtest
-- [[https://github.com/ThrowTheSwitch/Unity][unity]]
+** Connection Test [1/5]
+*** DONE Configuration reading
+*** TODO Worker
+What does a worker struct do?
+**** TODO test worker behavior
+*** TODO worker thread
+*** TODO Workerpool [0/1]
+What do we want with a workerpool?
+**** TODO implement features
+- [ ] create workerpool
+- [ ] destroy workerpool
+- [ ] start/stop workerpool
+- [ ] test workerpool
+*** TODO Job distribution
 
