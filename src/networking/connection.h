@@ -3,6 +3,9 @@
 
 #include <netinet/in.h>
 
+/**
+ * @brief Connection struct to encapsulate incomming connections.
+ */
 typedef struct {
     int                socket;
     struct sockaddr_in address;
