@@ -11,11 +11,10 @@ int workerpool_init(Workerpool* workerpool, Fifo* job_queue,
     assert(workerpool != NULL);
     assert(config != NULL);
 
-    workerpool->pool_size = config->worker_pool_lize;
-    workerpool->pool = (Worker*)malloc(workerpool->pool_size * sizeof(Worker));
-
     workerpool->job_queue = job_queue;
+    workerpool->pool_size = config->worker_pool_lize;
 
+    workerpool->pool = (Worker*)malloc(workerpool->pool_size * sizeof(Worker));
     if (workerpool->pool == NULL) { return -1; }
 
     int fail_index = 0;
