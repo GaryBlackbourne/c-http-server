@@ -8,6 +8,9 @@
 #include "worker.h"
 #include "fifo.h"
 
+/**
+ * @brief Workerpool struct for managing running worker threads and jobs.
+ */
 typedef struct {
     Worker*         pool;
     uint16_t        pool_size;
