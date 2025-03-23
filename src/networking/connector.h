@@ -14,7 +14,6 @@
  */
 typedef struct {
     int  socket;
-    Fifo job_queue;
 } Connector;
 
 /**
@@ -54,6 +53,6 @@ int connector_destroy(Connector* connector);
  * @return integer, indicating error or success. on success returns 0, on
  * error returns an error code.
  */
-int connector_start(Connector* connector);
+int connector_start(Connector* connector, Fifo* job_queue);
 
 #endif
