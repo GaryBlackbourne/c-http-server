@@ -54,8 +54,6 @@ include test/config/Makefile
 include test/networking/Makefile
 # -include test/workerpool/Makefile
 
-tests: $(tests)
-
 $(binary): $(objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
@@ -63,6 +61,15 @@ $(binary): $(objects)
 $(obj_dir)/unity.o: Unity/src/unity.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
+tests: $(tests)
+
+# For running tests from make
+define newline
+
+
+endef
+check: $(tests)
+	$(foreach t, $(tests), ./$(t)$(newline))
 
 clean:
 	@rm -f $(obj_dir)/*.o    &>/dev/null
@@ -73,12 +80,3 @@ clean:
 distclean:
 	rm -rf $(build_dir)
 .PHONY: distclean
-
-# For running tests from make
-define newline
-
-
-endef
-check: $(binary) $(tests)
-	$(foreach t, $(tests), ./$(t)$(newline))
-
