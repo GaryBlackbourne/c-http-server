@@ -54,6 +54,8 @@ include test/config/Makefile
 include test/networking/Makefile
 # -include test/workerpool/Makefile
 
+tests: $(tests)
+
 $(binary): $(objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
