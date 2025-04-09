@@ -1,17 +1,15 @@
 config-root := src/config
 
 config-sources := $(wildcard $(config-root)/*.c)
-config-objects := $(patsubst $(config-root)/%.c, $(OBJ_DIR)/config-%.o, $(config-sources))
-config-deps    := $(patsubst $(OBJ_DIR)/config-%.o, $(OBJ_DIR)/config-%.d, $(config-objects))
+config-objects := $(patsubst $(config-root)/%.c, $(obj_dir)/config-%.o, $(config-sources))
+config-deps    := $(patsubst $(obj_dir)/config-%.o, $(obj_dir)/config-%.d, $(config-objects))
 
 objects        += $(config-objects)
 
 config: $(config-objects)
 
-$(OBJ_DIR)/config-%.o: $(config-root)/%.c
+$(obj_dir)/config-%.o: $(config-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 -include $(config-deps)
-
--include src/config/cmdline-parser/Makefile
