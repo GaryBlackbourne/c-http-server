@@ -1,6 +1,6 @@
 #ifndef _CONNECTION_TEST_H
 #define _CONNECTION_TEST_H
 
-void test_setup_worker_pool();
+void connector_init_test_is_correct();
 
 #endif
