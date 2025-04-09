@@ -74,9 +74,9 @@ check: $(tests)
 	$(foreach t, $(tests), ./$(t)$(newline))
 
 clean:
-	@rm -f $(obj_dir)/*  &>/dev/null
-	@rm -f $(test_dir)/* &>/dev/null
-	@rm -f $(binary)     &>/dev/null
+	rm -rf $(obj_dir)/*  &>/dev/null
+	rm -rf $(test_dir)/* &>/dev/null
+	rm -f $(binary)     &>/dev/null
 .PHONY: clean
 
 distclean:
