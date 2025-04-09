@@ -1,12 +1,10 @@
-workerpool-root := src/workerpool
-
-workerpool-sources := $(wildcard $(workerpool-root)/*.c)
-workerpool-objects := $(patsubst $(workerpool-root)/%.c, $(obj_dir)/workerpool-%.o, $(workerpool-sources))
-workerpool-deps    := $(patsubst $(obj_dir)/workerpool-%.o, $(obj_dir)/workerpool-%.d, $(workerpool-objects))
+workerpool-sources := $(wildcard src/workerpool/*.c)
+workerpool-objects := $(patsubst src/workerpool/%.c, $(obj_dir)/workerpool/%.o, $(workerpool-sources))
+workerpool-deps    := $(patsubst src/workerpool/%.c, $(obj_dir)/workerpool/%.d, $(workerpool-sources))
 
 objects            += $(workerpool-objects)
 
-$(obj_dir)/workerpool-%.o: $(workerpool-root)/%.c
+$(obj_dir)/workerpool/%.o: src/workerpool/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
