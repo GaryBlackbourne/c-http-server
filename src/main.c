@@ -39,7 +39,7 @@ int main(int argc, const char* argv[]) {
     Connector connector;
     connector_init(&connector, &main_config);
     
-    connector_start(&connector);
+    /* connector_start(&connector); */
 
     connector_destroy(&connector);
     
