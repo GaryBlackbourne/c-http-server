@@ -8,8 +8,7 @@ objects        += $(common-objects)
 
 common: $(common-objects)
 
-$(obj_dir
-)/common-%.o: $(common-root)/%.c
+$(obj_dir)/common-%.o: $(common-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
