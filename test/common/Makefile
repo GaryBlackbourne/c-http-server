@@ -12,5 +12,3 @@ $(OBJ_DIR)/%-test.o: test/common/%-test.c
 $(common-test): $(common-test-objects) $(common-objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
-
-all: $(common-test)

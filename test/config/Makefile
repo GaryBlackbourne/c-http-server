@@ -12,5 +12,3 @@ $(OBJ_DIR)/%-test.o: test/config/%-test.c
 $(config-test): $(config-test-objects) $(config-objects) $(common-objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
-
-all: $(config-test)
