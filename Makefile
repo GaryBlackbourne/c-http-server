@@ -37,13 +37,6 @@ test-CFLAGS := -IUnity/src
 
 all: $(binary)
 
-objects  := $(obj_dir)/main.o
-
-$(obj_dir)/main.o: src/main.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(main-CFLAGS) -c $< -o $@
--include $(obj_dir)/main.d
-
 include src/common/Makefile
 include src/config/Makefile
 include src/networking/Makefile
@@ -53,6 +46,13 @@ include test/common/Makefile
 include test/config/Makefile
 include test/networking/Makefile
 # -include test/workerpool/Makefile
+
+$(obj_dir)/main.o: src/main.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(main-CFLAGS) -c $< -o $@
+-include $(obj_dir)/main.d
+
+objects  += $(obj_dir)/main.o
 
 $(binary): $(objects)
 	@mkdir -p $(@D)

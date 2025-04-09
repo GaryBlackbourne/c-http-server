@@ -4,8 +4,6 @@ networking-deps    := $(patsubst $(obj_dir)/networking-%.o, $(obj_dir)/networkin
 
 objects            += $(networking-objects)
 
-networking: $(networking-objects)
-
 $(obj_dir)/networking-%.o: src/networking/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@

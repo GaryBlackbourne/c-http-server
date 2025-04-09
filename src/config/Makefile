@@ -6,8 +6,6 @@ config-deps    := $(patsubst $(obj_dir)/config-%.o, $(obj_dir)/config-%.d, $(con
 
 objects        += $(config-objects)
 
-config: $(config-objects)
-
 $(obj_dir)/config-%.o: $(config-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@

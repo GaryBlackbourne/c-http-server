@@ -6,8 +6,6 @@ common_deps    := $(patsubst $(obj_dir)/common-%.o, $(obj_dir)/common-%.d, $(com
 
 objects        += $(common-objects)
 
-common: $(common-objects)
-
 $(obj_dir)/common-%.o: $(common-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@

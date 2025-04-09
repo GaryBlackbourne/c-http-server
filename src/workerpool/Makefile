@@ -6,8 +6,6 @@ workerpool-deps    := $(patsubst $(obj_dir)/workerpool-%.o, $(obj_dir)/workerpoo
 
 objects            += $(workerpool-objects)
 
-workerpool: $(workerpool-objects)
-
 $(obj_dir)/workerpool-%.o: $(workerpool-root)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@

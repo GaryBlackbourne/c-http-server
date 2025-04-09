@@ -9,6 +9,6 @@ $(obj_dir)/%-test.o: test/networking/%-test.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(test-CFLAGS) -c $< -o $@
 
-$(networking-test): $(networking-test-objects) $(networking-objects) $(config-objects)
+$(networking-test): $(networking-test-objects) $(objects)
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
