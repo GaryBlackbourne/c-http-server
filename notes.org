@@ -8,45 +8,38 @@ be able to connect, and served by several threads ensuring multiple simultaneous
 communication channels.
 
 * Modules
-** File manager
-Manages files, opens closes, and serves them to other modules
-This module opens the file if exists, and gives back its content.
-Needed information:
-- directory / directories for the html files to serve
-  
-** Processor
+** Processor                                                     :processor:
 Processes incomming http requests, and acquires files for response.
 
-** Connection Initializer
+** Connector                                                     :connector:
 Listens for incomming connection on given port, and sets up communication channels.
 
-** Connection Handler
+** Worker                                                        :worker:
 A module that implemetns the communication, builds up tcp connection, reading and writing data into sockets.
 All buffering and networking is done in here.
 
-** Configuration parser
+** Configuration parser                                      :config_parser:
 Parses cmd line configs, and config files, sets up a configuration structure
 - generates a list of key value pairs from command line or config file arguments
 - generates server configuration object
 - sets default values
 
-** Setup
-Sets up the server modules.
-
-** Logger
+** Logger                                                           :logger:
 Stores server logs into a log file.
 
+** File manager                                               :file_manager:
+Manages files, opens closes, and serves them to other modules
+This module opens the file if exists, and gives back its content.
+  
 * Tasks
 ** DONE argparser
 ** DONE configuration
 ** Connection Test [1/5]
 *** DONE Configuration reading
 *** TODO Worker
-What does a worker struct do?
 **** TODO test worker behavior
 *** TODO worker thread
 *** TODO Workerpool [0/1]
-What do we want with a workerpool?
 **** TODO implement features
 - [ ] create workerpool
 - [ ] destroy workerpool
