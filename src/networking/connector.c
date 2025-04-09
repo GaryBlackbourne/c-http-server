@@ -1,21 +1,19 @@
 #include "connector.h"
+#include "connection.h"
 #include "fifo.h"
-#include "job.h"
 
 #include <assert.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <sys/poll.h>
 #include <sys/socket.h>
 #include <asm-generic/socket.h>
 #include <unistd.h>
 #include <poll.h>
-#include <errno.h>
 
 int connector_init(Connector* connector, const Configuration* config) {
     assert(config != NULL);
     assert(connector != NULL);
-
-    init_fifo(&(connector->job_queue), config->job_queue_length);
 
     connector->socket = socket(AF_INET, SOCK_STREAM, 0);
     int reuse         = 1;
@@ -42,19 +40,38 @@ int connector_init(Connector* connector, const Configuration* config) {
 
 int connector_destroy(Connector* connector) {
     assert(connector != NULL);
-    destroy_fifo(&connector->job_queue);
     int ret = close(connector->socket);
     if (ret != 0) { perror("close"); }
     return ret;
 }
 
-int connector_start(Connector* connector) {
+int connector_start(Connector* connector, Fifo* job_queue) {
     assert(connector != NULL);
+    assert(job_queue != NULL);
+
+    // listen on connector socket
     int ret = listen(connector->socket, 5);  // why 5?
     if (ret < 0) {
         perror("listen");
         return ret;
     }
+
+    // poll on connector socket
+    struct pollfd p = {
+        .events = POLLIN,
+        .fd     = connector->socket,
+    };
+    while (1) {  // TODO: give some exit condition for proper functionality
+
+        // receive connection, accept it and push to job queue fifo
+        if (poll(&p, 1, -1) > 0) {
+            Connection conn = {0};
+            conn.socket =
+                accept(connector->socket, (struct sockaddr*)&conn.address,
+                       &conn.address_length);
+            fifo_push(job_queue, &conn, sizeof(Connection));
+        }
+    }
+
     return 0;
 }
-
