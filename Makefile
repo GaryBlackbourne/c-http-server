@@ -20,6 +20,8 @@ tests       :=
 
 ifeq ($(MODE), release)
 	CFLAGS  += -O3
+	CFLAGS  += -flto
+	LFLAGS  += -flto
 else ifeq ($(MODE), debug)
 	CFLAGS  += -O0
 	CFLAGS  += -g3
@@ -40,7 +42,7 @@ all: $(binary)
 include src/common/Makefile
 include src/config/Makefile
 include src/networking/Makefile
--include src/workerpool/Makefile
+include src/workerpool/Makefile
 
 include test/common/Makefile
 include test/config/Makefile
@@ -72,9 +74,9 @@ check: $(tests)
 	$(foreach t, $(tests), ./$(t)$(newline))
 
 clean:
-	@rm -f $(obj_dir)/*.o    &>/dev/null
-	@rm -f $(obj_dir)/*.d    &>/dev/null
-	@rm -f $(binary)         &>/dev/null
+	@rm -f $(obj_dir)/*  &>/dev/null
+	@rm -f $(test_dir)/* &>/dev/null
+	@rm -f $(binary)     &>/dev/null
 .PHONY: clean
 
 distclean:
