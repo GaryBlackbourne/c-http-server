@@ -126,7 +126,6 @@ void fifo_pop_empty(void) {
     Fifo fifo;
     int ret = fifo_init(&fifo, 2);
     TEST_ASSERT_EQUAL_INT(0, ret);
-    fifo_destroy(&fifo);
 
     int returned_data = -1;    
     uint32_t size = sizeof(int);
@@ -136,4 +135,6 @@ void fifo_pop_empty(void) {
     TEST_ASSERT_EQUAL_INT(sizeof(int), size);
     TEST_ASSERT_EQUAL_INT(-1, returned_data);
 
+    fifo_destroy(&fifo);
+}
 }
