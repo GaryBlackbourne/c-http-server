@@ -3,6 +3,7 @@
 
 #include "fifo.h"
 #include "configuration.h"
+#include "job.h"
 
 #include <pthread.h>
 
@@ -25,10 +26,10 @@ typedef struct {
 
 int job_queue_init(JobQueue* job_queue, const Configuration* config);
 
-int job_queue_push(JobQueue* job_queue);
+int job_queue_push(JobQueue* job_queue, Job job);
 
-int job_queue_pop(JobQueue* job_queue);
+int job_queue_pop(JobQueue* job_queue, Job* job);
 
-
+int job_queue_destroy(JobQueue* job_queue);
 
 #endif /* BALU_JOB_QUEUE */
