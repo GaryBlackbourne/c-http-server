@@ -2,6 +2,8 @@
 #define _BALU_JOB_QUEUE_HPP
 
 #include "fifo.h"
+#include "configuration.h"
+
 #include <pthread.h>
 
 /**
@@ -21,7 +23,7 @@ typedef struct {
     pthread_mutex_t new_job_cond_mux; // mutex for the conditional variable
 }JobQueue;
 
-int job_queue_init(JobQueue* job_queue);
+int job_queue_init(JobQueue* job_queue, const Configuration* config);
 
 int job_queue_push(JobQueue* job_queue);
 
