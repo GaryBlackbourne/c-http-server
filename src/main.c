@@ -7,7 +7,6 @@
 #include "cmdline-parser.h"
 #include "configuration.h"
 #include "connector.h"
-#include "fifo.h"
 
 int main(int argc, const char* argv[]) {
     
