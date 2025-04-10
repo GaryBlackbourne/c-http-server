@@ -35,6 +35,7 @@ int main(void) {
 
     RUN_TEST(fifo_pop_normal);
     RUN_TEST(fifo_pop_empty);
+    RUN_TEST(fifo_pop_null_size);
 
     return UNITY_END();
 }
