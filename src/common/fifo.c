@@ -68,7 +68,9 @@ int fifo_pop(Fifo* fifo, void* data, uint32_t* data_size) {
 
     memcpy(data, fifo->list[fifo->index].data,
            fifo->list[fifo->index].data_size);
-    *data_size = fifo->list[fifo->index].data_size;
+    if (data_size != NULL){
+        *data_size = fifo->list[fifo->index].data_size;
+    }
 
     fifo->list[fifo->index].data      = NULL;
     fifo->list[fifo->index].data_size = 0;
