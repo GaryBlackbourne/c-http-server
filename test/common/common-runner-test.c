@@ -25,10 +25,10 @@ int main(void) {
     RUN_TEST(str_to_float_test_bad_input);
     RUN_TEST(str_to_float_test_multiple_decimals);
 
-    RUN_TEST(init_fifo_test);
+    RUN_TEST(fifo_init_test);
 
-    RUN_TEST(destroy_fifo_empty_test);
-    RUN_TEST(destroy_fifo_non_empty_test);
+    RUN_TEST(fifo_destroy_empty_test);
+    RUN_TEST(fifo_destroy_non_empty_test);
 
     RUN_TEST(fifo_push_normal);
     RUN_TEST(fifo_push_full);

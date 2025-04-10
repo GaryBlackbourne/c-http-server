@@ -2,7 +2,7 @@
 #include "fifo.h"
 #include "fifo-test.h"
 
-void init_fifo_test(void) {
+void fifo_init_test(void) {
     Fifo fifo;
     int ret = fifo_init(&fifo, 3);
     TEST_ASSERT_EQUAL_INT(0, ret);
@@ -22,7 +22,7 @@ void init_fifo_test(void) {
     fifo_destroy(&fifo);
 }
 
-void destroy_fifo_empty_test(void) {
+void fifo_destroy_empty_test(void) {
     Fifo fifo;
     int ret = fifo_init(&fifo, 3);
     TEST_ASSERT_EQUAL_INT(0, ret);
@@ -34,7 +34,7 @@ void destroy_fifo_empty_test(void) {
     TEST_ASSERT_EQUAL_INT(fifo.items_num, 0);
 }
 
-void destroy_fifo_non_empty_test(void) {
+void fifo_destroy_non_empty_test(void) {
     Fifo fifo;
     int ret = fifo_init(&fifo, 3);
     TEST_ASSERT_EQUAL_INT(0, ret);
