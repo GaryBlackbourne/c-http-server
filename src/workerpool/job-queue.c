@@ -5,6 +5,7 @@
 #include "configuration.h"
 #include "job-queue.h"
 #include "fifo.h"
+#include "job.h"
 
 int job_queue_init(JobQueue* job_queue, const Configuration* config) {
     assert(job_queue != NULL);
@@ -38,4 +39,35 @@ fifo_mux_fail:
     fifo_destroy(&job_queue->fifo);
 fifo_fail:
     return -1;
+}
+
+int job_queue_push(JobQueue* job_queue, Job job) {
+    assert(job_queue != NULL);
+
+    pthread_mutex_lock(&job_queue->fifo_lock);
+    int fifo_ret = fifo_push(&job_queue->fifo, &job, sizeof(Job));
+    pthread_mutex_unlock(&job_queue->fifo_lock);
+    if (fifo_ret != 0) {
+        return -1;
+    }
+
+    // TODO signaling
+
+    return -1;
+}
+
+int job_queue_pop(JobQueue* job_queue, Job* job) {
+    assert(job_queue != NULL);
+    assert(job_queue != NULL);
+
+    pthread_mutex_lock(&job_queue->fifo_lock);
+    int fifo_ret = fifo_pop(&job_queue->fifo, &job, NULL);
+    pthread_mutex_unlock(&job_queue->fifo_lock);
+    if (fifo_ret != 0) {
+        return -1;
+    }
+
+    // TODO signaling
+
+    return 0;
 }
