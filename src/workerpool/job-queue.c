@@ -5,16 +5,16 @@
 #include "job-queue.h"
 #include "fifo.h"
 
-int job_queue_init(JobQueue* job_queue) {
+int job_queue_init(JobQueue* job_queue, const Configuration* config) {
     assert(job_queue != NULL);
+    assert(config != NULL);
 
     /*
      * Try to initialize all parts. If any of them fails,
      * destroy the previously created objects.
      */ 
 
-    // init fifo, and lock
-    if (init_fifo(&job_queue->fifo, 10) != 0){ // <<<<< TODO -> job queue length !
+    if (fifo_init(&job_queue->fifo, config->job_queue_length) != 0) {
         goto fifo_fail;
     }
     if (pthread_mutex_init(&job_queue->fifo_lock, NULL)) {
