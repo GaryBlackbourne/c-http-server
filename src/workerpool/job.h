@@ -3,13 +3,10 @@
 
 #include "connection.h"
 
-enum JobType {
-    task = 0,
-    quit = 1,
-};
-
+/**
+ * @brief Job struct containing a connection with a request.
+ */
 typedef struct {
-    enum JobType type;
     Connection   connection;
 } Job;
 
