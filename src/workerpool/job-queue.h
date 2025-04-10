@@ -1,5 +1,5 @@
-#ifndef BALU_JOB_QUEUE_HPP
-#define BALU_JOB_QUEUE_HPP
+#ifndef _BALU_JOB_QUEUE_HPP
+#define _BALU_JOB_QUEUE_HPP
 
 #include "fifo.h"
 #include <pthread.h>
