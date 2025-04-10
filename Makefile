@@ -1,22 +1,23 @@
-MODE        ?= debug
-BINARY_NAME ?= balu
+MODE         ?= debug
+BINARY_NAME  ?= balu
 
-build_dir   := build
-obj_dir     := $(build_dir)/$(MODE)/.obj-files
-test_dir    := $(build_dir)/$(MODE)/tests
-binary      := $(build_dir)/$(MODE)/$(BINARY_NAME)
-CC          := gcc
+build_dir    := build
+obj_dir      := $(build_dir)/$(MODE)/.obj-files
+test_dir     := $(build_dir)/$(MODE)/tests
+test_obj_dir := $(test_dir)/.obj-files
+binary       := $(build_dir)/$(MODE)/$(BINARY_NAME)
+CC           := gcc
 
-CFLAGS      += -Wall
-CFLAGS      += -Wextra
-CFLAGS      += -Wpedantic
-CFLAGS      += -MMD
-CFLAGS      += -std=c23
+CFLAGS       += -Wall
+CFLAGS       += -Wextra
+CFLAGS       += -Wpedantic
+CFLAGS       += -MMD
+CFLAGS       += -std=c23
 
-LDFLAGS     += -pthread
-LDFLAGS     += -lm
+LDFLAGS      += -pthread
+LDFLAGS      += -lm
 
-tests       := 
+tests        := 
 
 ifeq ($(MODE), release)
 	CFLAGS  += -O3
@@ -74,9 +75,10 @@ check: $(tests)
 	$(foreach t, $(tests), ./$(t)$(newline))
 
 clean:
-	rm -rf $(obj_dir)/*  &>/dev/null
-	rm -rf $(test_dir)/* &>/dev/null
-	rm -f $(binary)     &>/dev/null
+	rm -rf $(obj_dir)/*     &>/dev/null
+	rm -rf $(testobj_dir)/* &>/dev/null
+	rm -rf $(test_dir)/*    &>/dev/null
+	rm -f $(binary)         &>/dev/null
 .PHONY: clean
 
 distclean:
