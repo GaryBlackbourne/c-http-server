@@ -12,7 +12,7 @@
 int main(int argc, const char* argv[]) {
     
     // Generate default configuration
-    Configuration main_config = generate_default_config();
+    Configuration main_config = configuration_generate_default_config();
 
     // parse configuration file and override defaults
     // if file is non existent, just go with the defaults
@@ -43,6 +43,6 @@ int main(int argc, const char* argv[]) {
 
     connector_destroy(&connector);
     
-    destroy_config_struct(&main_config);
+    configuration_destroy(&main_config);
     return 0;
 }

@@ -8,7 +8,7 @@
 
 void connector_init_test_is_correct() {
 
-    const Configuration config = generate_default_config();
+    const Configuration config = configuration_generate_default_config();
     errno                      = 0;
 
     Connector connector = {0};
@@ -25,7 +25,7 @@ void connector_init_test_is_correct() {
 }
 
 void connector_destroy_test_is_correct() {
-    const Configuration config = generate_default_config();
+    const Configuration config = configuration_generate_default_config();
     errno                      = 0;
     Connector connector        = {0};
     int       ret              = connector_init(&connector, &config);

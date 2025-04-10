@@ -6,11 +6,11 @@
 Configuration config;
 
 void setUp(void) {
-    config = generate_default_config();
+    config = configuration_generate_default_config();
 }
 
 void tearDown(void) {
-    destroy_config_struct(&config);
+    configuration_destroy(&config);
 }
 
 int main(void) {

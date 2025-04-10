@@ -25,10 +25,10 @@ typedef struct {
 
 } Configuration;
 
-Configuration generate_default_config();
+Configuration configuration_generate_default_config();
 
-void destroy_config_struct(Configuration* conf);
+void configuration_destroy(Configuration* conf);
 
-void print_configuration(const Configuration* config, FILE* fstream);
+void configuration_print_config(const Configuration* config, FILE* fstream);
 
 #endif

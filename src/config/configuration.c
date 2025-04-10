@@ -7,7 +7,7 @@
 static const char* default_binary_name      = "balu";
 static const char* default_config_file_path = "$HOME/.config/balu/balu.conf";
 
-Configuration generate_default_config() {
+Configuration configuration_generate_default_config() {
     Configuration conf;
 
     conf.general.binary_name = (char*)malloc(strlen(default_binary_name) + 1);
@@ -30,12 +30,12 @@ Configuration generate_default_config() {
     return conf;
 }
 
-void destroy_config_struct(Configuration* conf) {
+void configuration_destroy(Configuration* conf) {
     free(conf->general.binary_name);
     free(conf->configuration.configuration_file_path);
 }
 
-void print_configuration(const Configuration* config, FILE* fstream) {
+void configuration_print_config(const Configuration* config, FILE* fstream) {
     fprintf(fstream, "general:binary_name = %s\n", config->general.binary_name);
     fprintf(fstream, "configuration:configuration_file_path = %s\n",
             config->configuration.configuration_file_path);
