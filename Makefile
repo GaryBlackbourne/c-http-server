@@ -48,7 +48,7 @@ include src/workerpool/Makefile
 include test/common/Makefile
 include test/config/Makefile
 include test/networking/Makefile
-# -include test/workerpool/Makefile
+include test/workerpool/Makefile
 
 $(obj_dir)/main.o: src/main.c
 	@mkdir -p $(@D)
