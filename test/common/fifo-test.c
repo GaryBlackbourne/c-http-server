@@ -137,4 +137,21 @@ void fifo_pop_empty(void) {
 
     fifo_destroy(&fifo);
 }
+
+void fifo_pop_null_size(void) {
+    Fifo fifo;
+    int ret = fifo_init(&fifo, 2);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+
+    int data = 5;
+    ret = fifo_push(&fifo, &data, sizeof(int));
+    TEST_ASSERT_EQUAL_INT(0, ret);
+
+    int returned_data = 15;
+    ret = fifo_pop(&fifo, &returned_data, NULL);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(data, returned_data);
+
+    fifo_destroy(&fifo);
+    
 }

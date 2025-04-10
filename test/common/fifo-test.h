@@ -10,5 +10,6 @@ void fifo_push_full(void);
 
 void fifo_pop_normal(void);
 void fifo_pop_empty(void);
+void fifo_pop_null_size(void);
 
 #endif
