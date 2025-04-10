@@ -4,7 +4,7 @@
 #include <string.h>
 #include <assert.h>
 
-int init_fifo(Fifo* fifo, uint32_t length) {
+int fifo_init(Fifo* fifo, uint32_t length) {
     assert(fifo != NULL);
 
     uint32_t fifo_byte_length = length * sizeof(FifoElement);
@@ -21,7 +21,7 @@ int init_fifo(Fifo* fifo, uint32_t length) {
     return 0;
 }
 
-int destroy_fifo(Fifo* fifo) {
+int fifo_destroy(Fifo* fifo) {
     assert(fifo != NULL);
 
     for (unsigned i = fifo->index; i < fifo->index + fifo->items_num; i++) {

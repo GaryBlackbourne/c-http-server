@@ -43,7 +43,7 @@ typedef struct {
  *
  * @return int indicating error or success. Upon success, returns 0.
  */
-int init_fifo(Fifo* fifo, uint32_t length);
+int fifo_init(Fifo* fifo, uint32_t length);
 
 /**
  * @brief Destroy fifo instance.
@@ -54,7 +54,7 @@ int init_fifo(Fifo* fifo, uint32_t length);
  *
  * @return int indicating error or success. Upon success, returns 0.
  */
-int destroy_fifo(Fifo* fifo);
+int fifo_destroy(Fifo* fifo);
 
 /**
  * @brief Push data to fifo.
