@@ -76,7 +76,7 @@ check: $(tests)
 
 clean:
 	rm -rf $(obj_dir)/*     &>/dev/null
-	rm -rf $(testobj_dir)/* &>/dev/null
+	rm -rf $(test_obj_dir)/* &>/dev/null
 	rm -rf $(test_dir)/*    &>/dev/null
 	rm -f $(binary)         &>/dev/null
 .PHONY: clean
