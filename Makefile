@@ -1,12 +1,13 @@
 MODE         ?= debug
 BINARY_NAME  ?= balu
 
-build_dir    := build
-obj_dir      := $(build_dir)/$(MODE)/.obj-files
-test_dir     := $(build_dir)/$(MODE)/tests
-test_obj_dir := $(test_dir)/.obj-files
-binary       := $(build_dir)/$(MODE)/$(BINARY_NAME)
+build-dir    := build
+obj-dir      := $(build-dir)/$(MODE)/.obj-files
+test-obj-dir := $(build-dir)/$(MODE)/.test-obj-files
+binary       := $(build-dir)/$(MODE)/$(BINARY_NAME)
+test         := $(build-dir)/$(MODE)/$(BINARY_NAME)-test
 CC           := gcc
+
 
 CFLAGS       += -Wall
 CFLAGS       += -Wextra
@@ -17,7 +18,6 @@ CFLAGS       += -std=c23
 LDFLAGS      += -pthread
 LDFLAGS      += -lm
 
-tests        := 
 
 ifeq ($(MODE), release)
 	CFLAGS  += -O3
@@ -30,15 +30,19 @@ else
 	$(error "Invalid MODE value: $(MODE). Use either 'release' or 'debug'.")
 endif
 
-CFLAGS += -Isrc
-CFLAGS += -Isrc/common
-CFLAGS += -Isrc/config
-CFLAGS += -Isrc/networking
-CFLAGS += -Isrc/workerpool
+CFLAGS      += -Isrc
+CFLAGS      += -Isrc/common
+CFLAGS      += -Isrc/config
+CFLAGS      += -Isrc/networking
+CFLAGS      += -Isrc/workerpool
 
-test-CFLAGS := -IUnity/src
+test-CFLAGS += -IUnity/src
+test-CFLAGS += -Itest/common
+test-CFLAGS += -Itest/config
+test-CFLAGS += -Itest/networking
+test-CFLAGS += -Itest/workerpool
 
-all: $(binary)
+all: $(binary) $(test)
 
 include src/common/Makefile
 include src/config/Makefile
@@ -50,21 +54,29 @@ include test/config/Makefile
 include test/networking/Makefile
 include test/workerpool/Makefile
 
-$(obj_dir)/main.o: src/main.c
+$(obj-dir)/main.o: src/main.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(main-CFLAGS) -c $< -o $@
--include $(obj_dir)/main.d
+	$(CC) $(CFLAGS) -c $< -o $@
+-include $(obj-dir)/main.d
 
-objects  += $(obj_dir)/main.o
+$(test-obj-dir)/test-main.o: test/test-main.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(test-CFLAGS) -c $< -o $@
+-include $(test-obj-dir)/test-main.d
 
-$(binary): $(objects)
+$(test-obj-dir)/unity.o: Unity/src/unity.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+test-objects += $(test-obj-dir)/unity.o
+
+$(binary): $(objects) $(obj-dir)/main.o
 	@mkdir -p $(@D)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
-$(obj_dir)/unity.o: Unity/src/unity.c
+$(test): $(objects) $(test-objects) $(test-obj-dir)/test-main.o
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
-tests: $(tests)
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 # For running tests from make
 define newline
@@ -75,12 +87,15 @@ check: $(tests)
 	$(foreach t, $(tests), ./$(t)$(newline))
 
 clean:
-	rm -rf $(obj_dir)/*     &>/dev/null
-	rm -rf $(test_obj_dir)/* &>/dev/null
-	rm -rf $(test_dir)/*    &>/dev/null
-	rm -f $(binary)         &>/dev/null
+	rm -f $(objects)
+	rm -f $(obj-dir)/main.o
+	rm -f $(test-objects)
+	rm -f $(test-obj-dir)/unity.o
+	rm -f $(test-obj-dir)/test-main.o
+	rm -f $(binary)
+	rm -f $(test)
 .PHONY: clean
 
 distclean:
-	rm -rf $(build_dir)
+	rm -rf $(build-dir)
 .PHONY: distclean
